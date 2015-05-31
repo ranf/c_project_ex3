@@ -5,11 +5,17 @@
 #define GAME_STATE 1
 #define TERMINATE_STATE 2
 
-#define ENTER_SETITNGS_MESSAGE "Enter game settings:\n"
+#define BLACK_COLOR 1;
+#define WHITE_COLOR 2;
+
+#define ENTER_SETTINGS_MESSAGE "Enter game settings:\n"
 
 
 typedef struct {
 	int state;
+	int minimaxDepth;
+	int userColor;
+	char board[BOARD_SIZE][BOARD_SIZE];
 } Settings;
 
 Settings getSettings();
