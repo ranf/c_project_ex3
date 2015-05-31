@@ -15,7 +15,7 @@ typedef struct {
 	int state;
 	int minimaxDepth;
 	int userColor;
-	char board[BOARD_SIZE][BOARD_SIZE];
+	board_t board;
 } Settings;
 
 Settings getSettings();

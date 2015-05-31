@@ -3,7 +3,7 @@ CFLAGS=-std=c99 -pedantic-errors -c -Wall -g -lm
 all: Draughts 
 
 clean:
-	-rm Draughts.o Draughts Settings.o
+	-rm Draughts.o Draughts Settings.o Game.o
 
 Draughts: Draughts.o Settings.o Game.o
 	gcc -o Draughts Draughts.o Settings.o Game.o -lm -std=c99 -pedantic-errors -g
