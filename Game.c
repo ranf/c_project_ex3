@@ -101,7 +101,7 @@ int otherPlayer(int player) {
 }
 
 MoveList* getMoves(board_t board, int player) {
-	var list;//whatever
+	MoveList result = NULL;
 	for (int i = 0; i < BOARD_SIZE; ++i)
 	for (int j = 0; j < BOARD_SIZE; ++i)
 	{
@@ -123,26 +123,3 @@ MoveList* getMoves(board_t board, int player) {
 	return list;
 }
 
-MoveList* getManMoves(Position position, board_t board, player) {
-	var list;
-	Position leftPosition = upperLeftDiagonal(position);
-	if(isValidPosition(leftPosition)){
-		if(getValueInPosition(leftPosition) == EMPTY) {
-			Move move  = {.from position, .to = createPositionList(leftPosition)};
-			addMove(list, move);
-		}
-		else if(playerInPosition(leftPosition, board, otherPlayer(player))
-			&& getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
-			board_t boardCopy = setBoard(leftPosition, EMPTY);
-
-		}
-	}
-}
-
-int manMaxEats(Position position, board_t board, int player){
-
-}
-
-int recursiveMaxEats(Position position, board_t board, int player, int previousCount){
-	
-}

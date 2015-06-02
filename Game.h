@@ -16,15 +16,14 @@ typedef struct position_list_struct {
 typedef struct {
 	Position from;
 	PositionList* to;
+	int eatCount;
 } Move;
 
-typedef struct move_list_struct{
+typedef struct move_list_struct {
 	Move data;
-	MoveList* next;
+	move_list_struct* next;
 	int maxToEat;
 } MoveList;
-
-typedef bool (*Predicate)(void*);
 
 void startGame(struct Settings settings);
 
