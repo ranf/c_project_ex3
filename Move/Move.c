@@ -22,12 +22,6 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 	return head;
 }
 
-PositionList* createPositionList(Position position) {
-	PositionList* result = malloc(sizeof(Position));
-	result->data = position;
-	return result;
-}
-
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	Move* newMove = copyMove(move);
 	PositionList* newPositionNode = createPositionList(position);
@@ -54,4 +48,19 @@ Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	newMove->eatCount++; 
 
 	return newMove;
+}
+
+void freeMoves(MoveList* list) {
+	MoveList* head = list;
+	while(head){
+		MoveList* next = head->next;
+		freeMove(head->data);
+		free(head);
+		head = next;
+	}
+}
+
+void freeMove(Move move) {
+	freePositionList(move.to);
+	freePositionList(move.eatenAt);
 }

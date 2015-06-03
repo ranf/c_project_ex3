@@ -4,16 +4,6 @@
 #include "Settings.h"
 
 typedef struct {
-	int x;
-	int y;
-} Position;
-
-typedef struct position_list_struct {
-	Position data;
-	struct position_list_struct* next;
-} PositionList;
-
-typedef struct {
 	Position from;
 	PositionList* to;
 	PositionList* eatenAt;

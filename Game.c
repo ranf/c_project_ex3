@@ -45,7 +45,7 @@ Settings userTurn(Settings settings) {
 
 Settings moveCommand(Settings settings, char* moveString) {
 	Move move = parseMove(moveString);
-	if(validMove(move)){
+	if(validateMove(&move)){
 		Settings s = applyMove(settings, move);
 		freeMove(move);
 		return s;
@@ -81,88 +81,41 @@ Settings parseMove(char* moveString) {
 	return move;
 }
 
-Position parsePosition(char* positionString) {
-	//assuming valid string
-	char xLetter = positionString[1];
-	char yDigit = positionString[3];
-	int x = xLetter - 'a' + 1;
-	int y = yDigit - '0';
-	Position p = {.x = x, .y = y};
-	return p;
-}
-
-PositionList* parseDestination(char* destString){
-	PositionList* list = malloc(sizeof(PositionList));
-	Position p = parsePosition(destString);
-	list->data = p;
-	PositionList* head = list;
-	int i = 5;
-	while (destString[i] == '<') {
-		Position p = parsePosition(destString+i);
-		head->next = malloc(sizeof(PositionList));
-		head = head->next;
-		head->data = p;
-		i += 5;
-	}
-	return list;
-} 
-
-bool validateMove(Move move, Settings settings, int player) {
-	if(!validPosition(move.from) || !allPositionsAreValid(move.to)) {
+bool validateMove(Move* move, Settings settings, int player) {
+	if(!validPosition(move->from) || !allPositionsAreValid(move->to)) {
 		printMessage(INVALID_POSITION);
 		return false;
 	}
-	if(!playerInPosition(move.from, settings.board, player) {
+	if(!playerInPosition(move->from, settings.board, player) {
 		printMessage(NO_DICS);
 		return false;
 	}
-	if(!isLegalMove(move, settings, player)) {
+	if(!moveInLegalMoves(move, settings, player)) {
 		printMessage(ILLEGAL_MOVE);
 		return false;
 	}
 	return true;
 }
 
-bool playerInPosition(Position position, board_t board, int player){
-	char value = getValueInPosition(position, board);
-	if(player == WHITE_COLOR && (value == WHITE_M || value == WHITE_K)
-		return true;
-	if(player == BLACK_COLOR && (value == BLACK_M || value == BLACK_K)
-		return true;
-	return false;
-}
 
-bool allPositionsAreValid(PositionList* list){
-	PositionList* head = list;
-	while(head){
-		if(!validPosition(head->data))
-			false;
-		head = head->next;
-	}
-	return true;
-}
-
-bool validPosition(Position position) {
-	return position.x > 0 && position.x <= BOARD_SIZE &&
-		position.y > 0 && position.y <= BOARD_SIZE &&
-		mod(position.x, 2) == mod(position.y, 2);
-}
-
-bool isLegalMove(Move move, Settings settings, int player) {
+bool moveInLegalMoves(Move* move, Settings settings, int player) {
 	MoveList* legalMoves = getMoves(settings, player);
-	bool legal = movesContains(legalMoves, move);
+	bool legal = moveInList(legalMoves, move);
 	freeMoves(legalMoves);
 	return legal;
 }
 
-bool movesContains(MoveList* list, Move moveToFind){
+bool moveInList(MoveList* list, Move* moveToFind){
 	if(list==NULL)
 		return false;
 	MoveList* head = list;
-	while(head->next && result == false){
-		MoveList* next = head->next;
-		if(positiosEquals(next->from, moveToFind.from) &&
-			positionListEquals(next->to, moveToFind.to)){
+	while(head){
+		if(positionEquals(head->from, moveToFind->from) &&
+			positionListEquals(next->to, moveToFind->to)){
+			moveToFind->from = head->from;
+			moveToFind->to = head->to;
+			moveToFind->eatenAt = head->eatenAt;
+			moveToFind->eatCount = head->eatCount;
 			return true;
 		}
 		head = head->next;
@@ -170,19 +123,10 @@ bool movesContains(MoveList* list, Move moveToFind){
 	return false;
 }
 
-bool allPositionsAreValid(PositionList* head) {
-	while(head) {
-		if(!validPosition(head))
-			return false;
-		head = head->next;
-	}
-	return true;
-}
-
 int otherPlayer(int player) {
 	return player == WHITE_COLOR
 			? BLACK_COLOR
-			: WHITE_COLOR
+			: WHITE_COLOR;
 }
 
 MoveList* getMoves(board_t board, int player) {
@@ -199,10 +143,6 @@ MoveList* getMoves(board_t board, int player) {
 		}
 	}
 	return result;
-}
-
-char getValueInPosition(Position p, board_t board){
-	return board[position.x][position.y];
 }
 
 board_t setBoard(board_t board, Position p, char value){
