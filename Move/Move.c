@@ -28,7 +28,7 @@ PositionList* createPositionList(Position position) {
 	return result;
 }
 
-Move* addPositionToMove(Move* move, Position position) {
+Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	Move* newMove = copyMove(move);
 	PositionList* newPositionNode = createPositionList(position);
 	PositionList* head = newMove->to;
@@ -40,5 +40,18 @@ Move* addPositionToMove(Move* move, Position position) {
 		}
 		head->next = newPositionNode;
 	}
+	
+	PositionList* newEatNode = createPositionList(eatPosition);
+	head = newMove->eatenAt;
+	if(head==NULL){
+		newMove->eatenAt = newEatNode;
+	}else{
+		while(head->next){
+			head = head->next;
+		}
+		head->next = newEatNode;
+	}
+	newMove->eatCount++; 
+
 	return newMove;
 }

@@ -10,18 +10,19 @@ typedef struct {
 
 typedef struct position_list_struct {
 	Position data;
-	position_list_struct* next;
+	struct position_list_struct* next;
 } PositionList;
 
 typedef struct {
 	Position from;
 	PositionList* to;
+	PositionList* eatenAt;
 	int eatCount;
 } Move;
 
 typedef struct move_list_struct {
 	Move data;
-	move_list_struct* next;
+	struct move_list_struct* next;
 	int maxToEat;
 } MoveList;
 
