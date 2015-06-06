@@ -2,7 +2,7 @@
 
 Settings getSettings() {
 	Settings settings = {.state = SETTINGS_STATE};
-	char board[BOARD_SIZE][BOARD_SIZE];
+	/*char board[BOARD_SIZE][BOARD_SIZE];
 	init_board(board);
 	print_message(ENTER_SETTINGS_MESSAGE);
 	while (settings.state == SETTINGS_STATE) {
@@ -27,7 +27,7 @@ Settings getSettings() {
 		} else {
 			invalidCommand();
 		} 
-	}
+	}*/
 	
 	return settings;
 }
