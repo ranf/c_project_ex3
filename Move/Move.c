@@ -60,7 +60,7 @@ Move parseMove(char* moveString) {
 	return move;
 }
 
-bool validateMove(Move* move, Board board, int player) {
+bool validateMove(Move* move, char** board, int player) {
 	if(!validPosition(move->from) || !allPositionsAreValid(move->to)) {
 		printMessage(INVALID_POSITION);
 		return false;
@@ -77,7 +77,7 @@ bool validateMove(Move* move, Board board, int player) {
 }
 
 
-bool moveInLegalMoves(Move* move, Board board, int player) {
+bool moveInLegalMoves(Move* move, char** board, int player) {
 	MoveList* legalMoves = getMoves(board, player);
 	bool legal = moveInList(legalMoves, move);
 	freeMoves(legalMoves);
@@ -102,7 +102,7 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 	return false;
 }
 
-MoveList* getMoves(Board board, int player) {
+MoveList* getMoves(char** board, int player) {
 	MoveList result = NULL;
 	for (int i = 0; i < BOARD_SIZE; ++i)
 	for (int j = 0; j < BOARD_SIZE; ++i)

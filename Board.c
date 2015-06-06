@@ -1,21 +1,21 @@
 #include "Board.h"
 
-Board setBoard(Board board, Position p, char value) {
-	Board result = copyBoard(board);
+char** setBoard(char** board, Position p, char value) {
+	char** result = copyBoard(board);
 	result[p.x][p.y] = value;
 	return result;
 }
 
-Board copyBoard(Board board){
-	char copy[BOARD_SIZE][BOARD_SIZE];
+char** copyBoard(char** board){
+	char** copy[BOARD_SIZE][BOARD_SIZE];
 	for (int i = 0; i < BOARD_SIZE; i++)
 	for (int j = 0; j < BOARD_SIZE; j++){
 		copy[i][j] = board[i][j];
 	}
-	return copy;
+	return result;
 }
 
-bool playerInPosition(Position position, Board board, int player) {
+bool playerInPosition(Position position, char** board, int player) {
 	char value = getValueInPosition(position, board);
 	if(player == WHITE_COLOR && isWhite(value))
 		return true;
@@ -24,8 +24,8 @@ bool playerInPosition(Position position, Board board, int player) {
 	return false;
 }
 
-char getValueInPosition(Position p, Board board) {
-	return board[position.x][position.y];
+char getValueInPosition(Position p, char** board) {
+	return board[p.x][p.y];
 }
 
 bool isKing(char value) {
@@ -46,7 +46,7 @@ int otherPlayer(int player) {
 			: WHITE_COLOR;
 }
 
-void printBoard(Board board)
+void printBoard(char** board)
 {
 	int i,j;
 	printBoardLineSeperator();
@@ -66,7 +66,7 @@ void printBoard(Board board)
 	printf("\n");
 }
 
-Board initBoard() {
+char** initBoard() {
 	char board[BOARD_SIZE][BOARD_SIZE];
 	int i,j;
 	for (i = 0; i < BOARD_SIZE; i++){

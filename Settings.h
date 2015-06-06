@@ -13,7 +13,7 @@ typedef struct {
 	int state;
 	int minimaxDepth;
 	int userColor;
-	Board board;
+	char** board;
 } Settings;
 
 Settings getSettings();

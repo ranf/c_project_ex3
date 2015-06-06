@@ -54,7 +54,7 @@ Settings moveCommand(Settings settings, char* moveString) {
 	return userTurn(settings);
 }
 
-Board applyMove(Board board, Move move) {
+char** applyMove(char** board, Move move) {
 	char movingDisc = getValueInPosition(move.from, board);
 	board = setBoard(board, move.from, EMPTY);
 	PositionList* head = move.eatenAt;

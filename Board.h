@@ -3,11 +3,12 @@
 
 #include "Position/Position.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 #define BOARD_SIZE 10
 
-#define BLACK_COLOR 1;
-#define WHITE_COLOR 2;
+#define BLACK_COLOR 1
+#define WHITE_COLOR 2
 
 #define WHITE_M 'm'
 #define WHITE_K 'k'
@@ -15,18 +16,16 @@
 #define BLACK_K 'K'
 #define EMPTY ' '
 
-typedef char** Board;
-
-Board setBoard(Board board, Position p, char value);
-Board copyBoard(Board board);
-bool playerInPosition(Position position, Board board, int player);
-char getValueInPosition(Position p, Board board);
+char** setBoard(char** board, Position p, char value);
+char** copyBoard(char** board);
+bool playerInPosition(Position position, char** board, int player);
+char getValueInPosition(Position p, char** board);
 bool isKing(char value);
 bool isWhite(char value);
 bool isBlack(char value);
 int otherPlayer(int player);
-void printBoard(Board board);
-Board initBoard();
+void printBoard(char** board);
+char** initBoard();
 void printBoardLineSeperator();
 
 #endif
