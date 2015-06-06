@@ -89,15 +89,19 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 		return false;
 	MoveList* head = list;
 	while(head){
-		if(positionEquals(head->data.from, moveToFind->from) &&
-			positionListEquals(head->data.to, moveToFind->to)){
-			moveToFind->eatenAt = copyPositionList(head->data.to)
-			moveToFind->eatCount = head->data.eatCount;
+		if(positionEquals(head->data->from, moveToFind->from) &&
+			positionListEquals(head->data->to, moveToFind->to)){
+			moveToFind->eatenAt = copyPositionList(head->data->to);
+			moveToFind->eatCount = head->data->eatCount;
 			return true;
 		}
 		head = head->next;
 	}
 	return false;
+}
+
+MoveList* getKingMoves(Position position, char** board, player) {
+	return NULL;//TODO
 }
 
 MoveList* getMoves(char** board, int player) {
@@ -136,7 +140,7 @@ void freeMoves(MoveList* list) {
 }
 
 void freeMove(Move* move) {
-	freePositionList(move.to);
-	freePositionList(move.eatenAt);
+	freePositionList(move->to);
+	freePositionList(move->eatenAt);
 	free(move);
 }
