@@ -3,7 +3,6 @@
 
 #include "../Board.h"
 #include "../Position/Position.h"
-#include "ManMove.h"
 
 #define ILLEGAL_MOVE "Illegal move\n"
 #define INVALID_POSITION "Invalid position on the board\n"
@@ -31,5 +30,7 @@ bool moveInList(MoveList* list, Move* moveToFind);
 MoveList* getMoves(Board board, int player);
 void freeMoves(MoveList* list);
 void freeMove(Move move);
+
+#include "ManMove.h"
 
 #endif

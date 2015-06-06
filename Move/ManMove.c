@@ -53,7 +53,7 @@ MoveList* aManEats(Position from, Board board, Move* previousMove, int player) {
 	return bestMoveList(bestMoveList(bestMoveList(upperLeftMoves, upperRightMoves), lowerLeftMoves), lowerRightMoves);
 }
 
-MoveList* getUpperLeftEatList(Position from, Board board, Move* previousMove. int player){
+MoveList* getUpperLeftEatList(Position from, Board board, Move* previousMove, int player){
 	Position leftPosition = upperLeftDiagonal(position);
 	if(isValidPosition(leftPosition) && isValidPosition(upperLeftDiagonal(leftPosition))
 		&& playerInPosition(leftPosition, board, otherPlayer(player))
@@ -65,7 +65,7 @@ MoveList* getUpperLeftEatList(Position from, Board board, Move* previousMove. in
 	return NULL;
 }
 
-MoveList* getUpperRightEatList(Position from, Board board, Move* previousMove. int player) {
+MoveList* getUpperRightEatList(Position from, Board board, Move* previousMove, int player) {
 	Position leftPosition = upperRightDiagonal(position);
 	if(isValidPosition(rightPosition) && isValidPosition(upperRightDiagonal(rightPosition))
 		&& playerInPosition(rightPosition, board, otherPlayer(player))
@@ -77,7 +77,7 @@ MoveList* getUpperRightEatList(Position from, Board board, Move* previousMove. i
 	return NULL;
 }
 
-MoveList* getLowerLeftEatList(Position from, Board board, Move* previousMove. int player) {
+MoveList* getLowerLeftEatList(Position from, Board board, Move* previousMove, int player) {
 	Position leftPosition = lowerLeftDiagonal(position);
 	if(isValidPosition(leftPosition) && isValidPosition(lowerLeftDiagonal(leftPosition))
 		&&playerInPosition(leftPosition, board, otherPlayer(player))
@@ -89,7 +89,7 @@ MoveList* getLowerLeftEatList(Position from, Board board, Move* previousMove. in
 	return NULL;
 }
 
-MoveList* getLowerRightEatList(Position from, Board board, Move* previousMove. int player) {
+MoveList* getLowerRightEatList(Position from, Board board, Move* previousMove, int player) {
 	Position rightPosition = lowerRightDiagonal(position);
 	if(isValidPosition(rightPosition) && isValidPosition(lowerRightDiagonal(rightPosition))
 		&&playerInPosition(rightPosition, board, otherPlayer(player))
