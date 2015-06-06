@@ -2,20 +2,15 @@
 #define GAME_
 
 #include "Settings.h"
+#include "Move/Move.h"
+#include "Board.h"
 
-typedef struct {
-	Position from;
-	PositionList* to;
-	PositionList* eatenAt;
-	int eatCount;
-} Move;
-
-typedef struct move_list_struct {
-	Move data;
-	struct move_list_struct* next;
-	int maxToEat;
-} MoveList;
+#define ENTER_YOUR_MOVE "Enter your move:\n" 
 
 void startGame(struct Settings settings);
+char computerTurn(Settings settings);
+Settings userTurn(Settings settings);
+Settings moveCommand(Settings settings, char* moveString);
+Settings applyMove(Settings settings, Move move);
 
 #endif

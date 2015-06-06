@@ -41,15 +41,6 @@ void freePositionList(PositionList* list) {
 	}
 }
 
-bool playerInPosition(Position position, board_t board, int player){
-	char value = getValueInPosition(position, board);
-	if(player == WHITE_COLOR && (value == WHITE_M || value == WHITE_K)
-		return true;
-	if(player == BLACK_COLOR && (value == BLACK_M || value == BLACK_K)
-		return true;
-	return false;
-}
-
 bool allPositionsAreValid(PositionList* head) {
 	while(head) {
 		if(!validPosition(head->data))
@@ -62,7 +53,7 @@ bool allPositionsAreValid(PositionList* head) {
 bool validPosition(Position position) {
 	return position.x > 0 && position.x <= BOARD_SIZE &&
 		position.y > 0 && position.y <= BOARD_SIZE &&
-		mod(position.x, 2) == mod(position.y, 2);
+		(position.x % 2) == (position.y % 2);
 }
 
 bool positionEquals(Position p1, Position p2) {
@@ -83,6 +74,22 @@ bool positionListEquals(PositionList* list1, PositionList* list2) {
 	return head1 == NULL && head2 == NULL;
 }
 
-char getValueInPosition(Position p, board_t board) {
-	return board[position.x][position.y];
+Position upperLeftDiagonal(Position p) {
+	Position p2 = {.x = p.x - 1, .y = p.y + 1};
+	return p2;
+}
+
+Position upperRightDiagonal(Position p) {
+	Position p2 = {.x = p.x + 1, .y = p.y + 1};
+	return p2;
+}
+
+Position lowerLeftDiagonal(Position p) {
+	Position p2 = {.x = p.x - 1, .y = p.y - 1};
+	return p2;
+}
+
+Position lowerRightDiagonal(Position p) {
+	Position p2 = {.x = p.x + 1, .y = p.y - 1};
+	return p2;
 }

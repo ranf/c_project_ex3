@@ -1,6 +1,6 @@
 #include "ManMove.h"
 
-MoveList* getManMoves(Position position, board_t board, player) {
+MoveList* getManMoves(Position position, Board board, player) {
 	MoveList* result = NULL;
 	Position leftPosition = upperLeftDiagonal(position);
 	if(isValidPosition(leftPosition)) {
@@ -9,7 +9,7 @@ MoveList* getManMoves(Position position, board_t board, player) {
 			result = createMoveList(move);
 		}
 		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
-			board_t boardCopy = setBoard(board, leftPosition, EMPTY);
+			Board boardCopy = setBoard(board, leftPosition, EMPTY);
 			Move move  = {.from position, .to = createPositionList(upperLeftDiagonal(leftPosition)),
 				.eatenAt = createPositionList(leftPosition), .eatCount = 1};
 			result = aManEats(upperLeftDiagonal(leftPosition)),boardCopy, previousMove, player);
@@ -25,7 +25,7 @@ MoveList* getManMoves(Position position, board_t board, player) {
 				result.next = createMoveList(move);
 		}
 		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
-			board_t boardCopy = setBoard(board, leftPosition, EMPTY);
+			Board boardCopy = setBoard(board, leftPosition, EMPTY);
 			Move move  = {.from position, .to = createPositionList(upperLeftDiagonal(leftPosition)), .eatCount = 1};
 			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition)),boardCopy, &previousMove, player);
 			result = bestMoveList(result, rightMoves);
@@ -34,14 +34,14 @@ MoveList* getManMoves(Position position, board_t board, player) {
 	return result;
 }
 
-MoveList* createMoveList(Move move){
+MoveList* createMoveList(Move move) {
 	MoveList* result = malloc(sizeof(MoveList));
 	result->data = move;
 	result->maxToEat = move.eatCount;
 	return result;
 }
 
-MoveList* aManEats(Position from, board_t board, Move* previousMove, int player){
+MoveList* aManEats(Position from, Board board, Move* previousMove, int player) {
 	MoveList* upperLeftMoves = NULL,upperRightMoves=NULL,lowerLeftMoves=NULL,lowerRightMoves=NULL;
 	int maxToEat = previousMove->eatCount;
 	upperLeftMoves = getUpperLeftMoveList(from, board, previousMove);
@@ -53,9 +53,9 @@ MoveList* aManEats(Position from, board_t board, Move* previousMove, int player)
 	return bestMoveList(bestMoveList(bestMoveList(upperLeftMoves, upperRightMoves), lowerLeftMoves), lowerRightMoves);
 }
 
-MoveList* getUpperLeftEatList(Position from, board_t board, Move* previousMove. int player){
+MoveList* getUpperLeftEatList(Position from, Board board, Move* previousMove. int player){
 	Position leftPosition = upperLeftDiagonal(position);
-	if(isValidPosition(leftPosition)&&isValidPosition(upperLeftDiagonal(leftPosition))
+	if(isValidPosition(leftPosition) && isValidPosition(upperLeftDiagonal(leftPosition))
 		&& playerInPosition(leftPosition, board, otherPlayer(player))
 		&& getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
 
@@ -65,10 +65,10 @@ MoveList* getUpperLeftEatList(Position from, board_t board, Move* previousMove. 
 	return NULL;
 }
 
-MoveList* getUpperRightEatList(Position from, board_t board, Move* previousMove. int player){
+MoveList* getUpperRightEatList(Position from, Board board, Move* previousMove. int player) {
 	Position leftPosition = upperRightDiagonal(position);
-	if(isValidPosition(rightPosition)&&isValidPosition(upperRightDiagonal(rightPosition))
-		&&playerInPosition(rightPosition, board, otherPlayer(player))
+	if(isValidPosition(rightPosition) && isValidPosition(upperRightDiagonal(rightPosition))
+		&& playerInPosition(rightPosition, board, otherPlayer(player))
 		&& getValueInPosition(upperRightDiagonal(rightPosition)) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, upperRightDiagonal(rightPosition));
@@ -77,9 +77,9 @@ MoveList* getUpperRightEatList(Position from, board_t board, Move* previousMove.
 	return NULL;
 }
 
-MoveList* getLowerLeftEatList(Position from, board_t board, Move* previousMove. int player){
+MoveList* getLowerLeftEatList(Position from, Board board, Move* previousMove. int player) {
 	Position leftPosition = lowerLeftDiagonal(position);
-	if(isValidPosition(leftPosition)&&isValidPosition(lowerLeftDiagonal(leftPosition))
+	if(isValidPosition(leftPosition) && isValidPosition(lowerLeftDiagonal(leftPosition))
 		&&playerInPosition(leftPosition, board, otherPlayer(player))
 		&& getValueInPosition(lowerLeftDiagonal(leftPosition)) == EMPTY) {
 		
@@ -89,9 +89,9 @@ MoveList* getLowerLeftEatList(Position from, board_t board, Move* previousMove. 
 	return NULL;
 }
 
-MoveList* getLowerRightEatList(Position from, board_t board, Move* previousMove. int player){
+MoveList* getLowerRightEatList(Position from, Board board, Move* previousMove. int player) {
 	Position rightPosition = lowerRightDiagonal(position);
-	if(isValidPosition(rightPosition)&&isValidPosition(lowerRightDiagonal(rightPosition))
+	if(isValidPosition(rightPosition) && isValidPosition(lowerRightDiagonal(rightPosition))
 		&&playerInPosition(rightPosition, board, otherPlayer(player))
 		&& getValueInPosition(lowerRightDiagonal(rightPosition)) == EMPTY) {
 		

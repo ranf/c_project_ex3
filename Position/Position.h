@@ -1,6 +1,9 @@
 #ifndef POSITION_
 #define POSITION_
 
+#include <stdlib.h>
+#include <stdbool.h>
+
 typedef struct {
 	int x;
 	int y;
@@ -19,6 +22,9 @@ bool allPositionsAreValid(PositionList* head);
 bool validPosition(Position position);
 bool positionEquals(Position p1, Position p2);
 bool positionListEquals(PositionList* list1, PositionList* list2);
-char getValueInPosition(Position p, board_t board);
+Position upperLeftDiagonal(Position p);
+Position upperRightDiagonal(Position p);
+Position lowerLeftDiagonal(Position p);
+Position lowerRightDiagonal(Position p);
 
 #endif

@@ -1,12 +1,13 @@
 CFLAGS=-std=c99 -pedantic-errors -c -Wall -g -lm
+OBJ=Draughts.o Settings.o Game.o Board.o Move/Move.o Move/ManMove.o Position/Position.o
 
 all: Draughts 
 
 clean:
-	-rm Draughts.o Draughts Settings.o Game.o
+	-rm Draughts $(OBJ)
 
-Draughts: Draughts.o Settings.o Game.o
-	gcc -o Draughts Draughts.o Settings.o Game.o -lm -std=c99 -pedantic-errors -g
+Draughts: $(OBJ)
+	gcc -o Draughts $(OBJ) -lm -std=c99 -pedantic-errors -g
 
 Draughts.o: Draughts.h Draughts.c
 	gcc $(CFLAGS) Draughts.c
@@ -16,3 +17,15 @@ Settings.o: Settings.h Settings.c
 
 Game.o: Game.h Game.c
 	gcc $(CFLAGS) Game.c
+
+Board.o: Board.h Board.c
+	gcc $(CFLAGS) Board.c
+
+Move/Move.o: Move/Move.h Move/Move.c
+	gcc $(CFLAGS) Move/Move.c
+
+Move/ManMove.o: Move/ManMove.h Move/ManMove.c
+	gcc $(CFLAGS) Move/ManMove.c
+
+Position/Position.o: Position/Position.h Position/Position.c
+	gcc $(CFLAGS) Position/Position.c
