@@ -12,7 +12,7 @@ char** copyBoard(char** board) {
 	for (int j = 0; j < BOARD_SIZE; j++){
 		copy[i][j] = board[i][j];
 	}
-	return result;
+	return copy;
 }
 
 char** mallocBoard() {

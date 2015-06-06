@@ -24,7 +24,7 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	Move* newMove = copyMove(move);
-	PositionList* newPositionNode = createPositionList(position);
+	PositionList* newPositionNode = createPositionList(eatPosition);
 	PositionList* head = newMove->to;
 	if(head==NULL){
 		newMove->to = newPositionNode;
@@ -50,6 +50,14 @@ Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	return newMove;
 }
 
+Move* copyMove(Move* original) {
+	if (original == NULL)
+		return NULL;
+	Move copy = {.from = orignal->position, .to = copyPositionList(original->to),
+		.eatenAt = copyPositionList(original->eatenAt), .eatCount = original->eatCount};
+	return copy;
+}
+
 Move parseMove(char* moveString) {
 	char initialPosition[6];
 	strncpy(initialPosition, moveString, 5);
@@ -65,7 +73,7 @@ bool validateMove(Move* move, char** board, int player) {
 		printMessage(INVALID_POSITION);
 		return false;
 	}
-	if(!playerInPosition(move->from, board, player) {
+	if(!playerInPosition(move->from, board, player)) {
 		printMessage(NO_DISC);
 		return false;
 	}
@@ -89,12 +97,10 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 		return false;
 	MoveList* head = list;
 	while(head){
-		if(positionEquals(head->from, moveToFind->from) &&
-			positionListEquals(next->to, moveToFind->to)){
-			moveToFind->from = head->from;
-			moveToFind->to = head->to;
-			moveToFind->eatenAt = head->eatenAt;
-			moveToFind->eatCount = head->eatCount;
+		if(positionEquals(head->data.from, moveToFind->from) &&
+			positionListEquals(head->data.to, moveToFind->to)){
+			moveToFind->eatenAt = copyPositionList(head->data.to)
+			moveToFind->eatCount = head->data.eatCount;
 			return true;
 		}
 		head = head->next;
@@ -103,7 +109,7 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 }
 
 MoveList* getMoves(char** board, int player) {
-	MoveList result = NULL;
+	MoveList* result = NULL;
 	for (int i = 0; i < BOARD_SIZE; ++i)
 	for (int j = 0; j < BOARD_SIZE; ++i)
 	{

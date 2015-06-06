@@ -43,6 +43,20 @@ PositionList* createPositionList(Position position) {
 	return result;
 }
 
+PositionList* copyPositionList(PositionList* original) {
+	if(original == NULL)
+		return NULL;
+	PositionList* result = createPositionList(original->data);
+	PositionList* resultHead = result;
+	PositionList* head = original->next;
+	while(head){
+		resultHead->next = createPositionList(head->data);
+		resultHead = resultHead->next;
+		head = head->next;
+	}
+	return result;
+}
+
 void freePositionList(PositionList* list) {
 	PositionList* head = list;
 	while(head){
