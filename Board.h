@@ -27,5 +27,7 @@ int otherPlayer(int player);
 void printBoard(char** board);
 char** initBoard();
 void printBoardLineSeperator();
+char** mallocBoard();
+void freeBoard(char** board);
 
 #endif

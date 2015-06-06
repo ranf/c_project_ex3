@@ -12,7 +12,8 @@ MoveList* getManMoves(Position position, char** board, player) {
 			char** boardCopy = setBoard(board, leftPosition, EMPTY);
 			Move move  = {.from position, .to = createPositionList(upperLeftDiagonal(leftPosition)),
 				.eatenAt = createPositionList(leftPosition), .eatCount = 1};
-			result = aManEats(upperLeftDiagonal(leftPosition)),boardCopy, previousMove, player);
+			result = aManEats(upperLeftDiagonal(leftPosition), boardCopy, &move, player);
+			freeBoard(boardCopy);
 		}
 	}
 	Position rightPosition = upperRightDiagonal(position);
@@ -27,7 +28,8 @@ MoveList* getManMoves(Position position, char** board, player) {
 		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
 			char** boardCopy = setBoard(board, leftPosition, EMPTY);
 			Move move  = {.from position, .to = createPositionList(upperLeftDiagonal(leftPosition)), .eatCount = 1};
-			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition)),boardCopy, &previousMove, player);
+			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition), boardCopy, &move, player);
+			freeBoard(boardCopy);
 			result = bestMoveList(result, rightMoves);
 		}
 	}
@@ -60,7 +62,10 @@ MoveList* getUpperLeftEatList(Position from, char** board, Move* previousMove, i
 		&& getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
 
 		Move* newMove = addEatToMove(previousMove, upperLeftDiagonal(leftPosition));
-		return aManEats(from, setBoard(leftPosition, EMPTY), newMove, player);
+		char** boardCopy = setBoard(leftPosition, EMPTY);
+		MoveList* list = aManEats(from, boardCopy, newMove, player);
+		freeBoard(boardCopy);
+		return list;
 	}
 	return NULL;
 }
@@ -72,7 +77,10 @@ MoveList* getUpperRightEatList(Position from, char** board, Move* previousMove, 
 		&& getValueInPosition(upperRightDiagonal(rightPosition)) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, upperRightDiagonal(rightPosition));
-		return aManEats(from, setBoard(rightPosition, EMPTY), newMove, player);
+		char** boardCopy = setBoard(leftPosition, EMPTY);
+		MoveList* list = aManEats(from, boardCopy, newMove, player);
+		freeBoard(boardCopy);
+		return list;
 	}
 	return NULL;
 }
@@ -84,7 +92,10 @@ MoveList* getLowerLeftEatList(Position from, char** board, Move* previousMove, i
 		&& getValueInPosition(lowerLeftDiagonal(leftPosition)) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, lowerLeftDiagonal(leftPosition));
-		return aManEats(from, setBoard(leftPosition, EMPTY), newMove, player);
+		char** boardCopy = setBoard(leftPosition, EMPTY);
+		MoveList* list = aManEats(from, boardCopy, newMove, player);
+		freeBoard(boardCopy);
+		return list;
 	}
 	return NULL;
 }
@@ -96,7 +107,10 @@ MoveList* getLowerRightEatList(Position from, char** board, Move* previousMove, 
 		&& getValueInPosition(lowerRightDiagonal(rightPosition)) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, lowerRightDiagonal(rightPosition));
-		return aManEats(from, setBoard(rightPosition, EMPTY), newMove, player);
+		char** boardCopy = setBoard(leftPosition, EMPTY);
+		MoveList* list = aManEats(from, boardCopy, newMove, player);
+		freeBoard(boardCopy);
+		return list;
 	}
 	return NULL;
 }

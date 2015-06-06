@@ -6,13 +6,28 @@ char** setBoard(char** board, Position p, char value) {
 	return result;
 }
 
-char** copyBoard(char** board){
-	char** copy[BOARD_SIZE][BOARD_SIZE];
+char** copyBoard(char** board) {
+	char** copy = mallocBoard();
 	for (int i = 0; i < BOARD_SIZE; i++)
 	for (int j = 0; j < BOARD_SIZE; j++){
 		copy[i][j] = board[i][j];
 	}
 	return result;
+}
+
+char** mallocBoard() {
+	char** board = malloc(BOARD_SIZE*sizeof(char*));
+	for (int i = 0; i < BOARD_SIZE; ++i) {
+		board[i] = malloc(BOARD_SIZE*sizeof(char));
+	}
+	return board;
+}
+
+void freeBoard(char** board) {
+	for (int i = 0; i < BOARD_SIZE; ++i) {
+		free(board[i]);
+	}
+	free(board);
 }
 
 bool playerInPosition(Position position, char** board, int player) {
@@ -46,8 +61,7 @@ int otherPlayer(int player) {
 			: WHITE_COLOR;
 }
 
-void printBoard(char** board)
-{
+void printBoard(char** board) {
 	int i,j;
 	printBoardLineSeperator();
 	for (j = BOARD_SIZE-1; j >= 0 ; j--)
@@ -67,7 +81,7 @@ void printBoard(char** board)
 }
 
 char** initBoard() {
-	char board[BOARD_SIZE][BOARD_SIZE];
+	char** board = mallocBoard();
 	int i,j;
 	for (i = 0; i < BOARD_SIZE; i++){
 		for (j = 0; j < BOARD_SIZE; j++){

@@ -56,17 +56,23 @@ Settings moveCommand(Settings settings, char* moveString) {
 
 char** applyMove(char** board, Move move) {
 	char movingDisc = getValueInPosition(move.from, board);
-	board = setBoard(board, move.from, EMPTY);
+	char** tempBoard = setBoard(board, move.from, EMPTY);
+	freeBoard(board);
+	board = tempBoard;
 	PositionList* head = move.eatenAt;
 	while(head){
-		board = setBoard(board, head->data, EMPTY);
+		tempBoard = setBoard(board, head->data, EMPTY);
+		freeBoard(board);
+		board = tempBoard;
 		head = head->next;
 	}
 	head = move.to;
 	while(head->next){
 		head = head->next;
 	}
-	board = setBoard(board, head->data, movingDisc);
+	tempBoard = setBoard(board, head->data, movingDisc);
+	freeBoard(board);
+	board = tempBoard;
 	return board;
 }
 
