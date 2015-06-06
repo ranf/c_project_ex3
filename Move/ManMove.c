@@ -5,30 +5,29 @@ MoveList* getManMoves(Position position, char** board, player) {
 	Position leftPosition = upperLeftDiagonal(position);
 	if(isValidPosition(leftPosition)) {
 		if(getValueInPosition(leftPosition) == EMPTY) {
-			Move move  = {.from = position, .to = createPositionList(leftPosition), .eatCount = 0};
+			Move* move = createMove(position, createPositionList(leftPosition), NULL, 0);
 			result = createMoveList(move);
 		}
 		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
 			char** boardCopy = setBoard(board, leftPosition, EMPTY);
-			Move move  = {.from = position, .to = createPositionList(upperLeftDiagonal(leftPosition)),
-				.eatenAt = createPositionList(leftPosition), .eatCount = 1};
-			result = aManEats(upperLeftDiagonal(leftPosition), boardCopy, &move, player);
+			Move* move  = createMove(position, createPositionList(upperLeftDiagonal(leftPosition)), createPositionList(leftPosition), 1);
+			result = aManEats(upperLeftDiagonal(leftPosition), boardCopy, move, player);
 			freeBoard(boardCopy);
 		}
 	}
 	Position rightPosition = upperRightDiagonal(position);
 	if(isValidPosition(rightPosition)){
-		if((result==NULL||result.maxToEat==0)&&getValueInPosition(leftPosition) == EMPTY) {
-			Move move  = {.from = position, .to = createPositionList(leftPosition), .eatCount = 0};
+		if((result==NULL||result.maxToEat==0) && getValueInPosition(rightPosition) == EMPTY) {
+			Move* move  = createMove(position, createPositionList(rightPosition), NULL, 0);
 			if(result == NULL)
 				result = createMoveList(move);
 			else
-				result.next = createMoveList(move);
+				result->next = createMoveList(move);
 		}
-		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition)) == EMPTY) {
-			char** boardCopy = setBoard(board, leftPosition, EMPTY);
-			Move move  = {.from position, .to = createPositionList(upperLeftDiagonal(leftPosition)), .eatCount = 1};
-			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition), boardCopy, &move, player);
+		else if (playerInPosition(rightPosition, board, otherPlayer(player)) && getValueInPosition(upperRightDiagonal(RightPosition)) == EMPTY) {
+			char** boardCopy = setBoard(board, rightPosition, EMPTY);
+			Move* move  = createMove(position, createPositionList(upperRightDiagonal(rightPosition)), createPositionList(rightPosition), .eatCount = 1};
+			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition), boardCopy, move, player);
 			freeBoard(boardCopy);
 			result = bestMoveList(result, rightMoves);
 		}
@@ -36,7 +35,7 @@ MoveList* getManMoves(Position position, char** board, player) {
 	return result;
 }
 
-MoveList* createMoveList(Move move) {
+MoveList* createMoveList(Move* move) {
 	MoveList* result = malloc(sizeof(MoveList));
 	result->data = move;
 	result->maxToEat = move.eatCount;

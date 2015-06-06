@@ -23,7 +23,7 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 }
 
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
-	Move* newMove = copyMove(move);
+	Move* newMove = createMove(move->from, copyPositionList(move->to), copyPositionList(move->eatenAt), move->eatCount);
 	PositionList* newPositionNode = createPositionList(eatPosition);
 	PositionList* head = newMove->to;
 	if(head==NULL){
@@ -48,14 +48,6 @@ Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	newMove->eatCount++; 
 
 	return newMove;
-}
-
-Move* copyMove(Move* original) {
-	if (original == NULL)
-		return NULL;
-	Move copy = {.from = orignal->position, .to = copyPositionList(original->to),
-		.eatenAt = copyPositionList(original->eatenAt), .eatCount = original->eatCount};
-	return copy;
 }
 
 Move parseMove(char* moveString) {
@@ -124,6 +116,15 @@ MoveList* getMoves(char** board, int player) {
 	return result;
 }
 
+Move* createMove(Position from, PositionList* to, PositionList* eatenAt, int eatCount) {
+	Move* move = malloc(sizeof(Move));
+	move->from = from;
+	move->to = to;
+	move->eatenAt = eatenAt;
+	move->eatCount = eatCount;
+	return move;
+}
+
 void freeMoves(MoveList* list) {
 	MoveList* head = list;
 	while(head){
@@ -134,7 +135,8 @@ void freeMoves(MoveList* list) {
 	}
 }
 
-void freeMove(Move move) {
+void freeMove(Move* move) {
 	freePositionList(move.to);
 	freePositionList(move.eatenAt);
+	free(move);
 }
