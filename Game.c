@@ -34,7 +34,7 @@ Settings userTurn(Settings settings) {
 		printAllMoves(moves);
 		freeMoves(moves);
 		settings = userTurn(settings);
-	} else if (strcmp(cmdType, "quit")) {
+	} else if (strcmp(cmd, "quit")) {
 		settings.state = TERMINATE_STATE;
 	} else {
 		printMessage(ILLEGAL_COMMAND);
