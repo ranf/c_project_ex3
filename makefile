@@ -22,10 +22,10 @@ Board.o: Board.h Board.c
 	gcc $(CFLAGS) Board.c
 
 Move/Move.o: Move/Move.h Move/Move.c
-	gcc $(CFLAGS) Move/Move.c
+	gcc $(CFLAGS) Move/Move.c -o Move/Move.o
 
 Move/ManMove.o: Move/ManMove.h Move/ManMove.c
-	gcc $(CFLAGS) Move/ManMove.c
+	gcc $(CFLAGS) Move/ManMove.c -o Move/ManMove.o
 
 Position/Position.o: Position/Position.h Position/Position.c
-	gcc $(CFLAGS) Position/Position.c
+	gcc $(CFLAGS) Position/Position.c -o Position/Position.o

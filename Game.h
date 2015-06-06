@@ -15,7 +15,7 @@ void startGame(Settings settings);
 Settings computerTurn(Settings settings);
 Settings userTurn(Settings settings);
 Settings moveCommand(Settings settings, char* moveString);
-char** applyMove(char** board, Move move);
+char** applyMove(char** board, Move* move);
 int getIndexOfFirstSpaceOrEnd(char* str);
 void printAllMoves(MoveList* moves);
 void printMove(Move* move);
