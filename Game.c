@@ -30,7 +30,7 @@ Settings userTurn(Settings settings) {
 	if (strncmp(cmd, "move", endOfFirstWord)) {
 		settings = moveCommand(settings, cmd + 5);
 	} else if (strcmp(cmd, "get_moves")) {
-		MoveList moves = getMoves();
+		MoveList* moves = getMoves(settings.board, settings.userColor);
 		printAllMoves(moves);
 		freeMoves(moves);
 		settings = userTurn(settings);
@@ -70,7 +70,28 @@ Board applyMove(Board board, Move move) {
 	return board;
 }
 
-char* getIndexOfFirstSpaceOrEnd(char* str) {
+void printAllMoves(MoveList* moves) {
+	MoveList* head = moves;
+	while(head) {
+		printMove(head->data);
+		head = head->next;
+	}
+}
+
+void printMove(Move move) {
+	char result[MAX_COMMAND_LENGTH];
+	result[0] = '\0';
+	strcat(result, positionToString(move.from));
+	strcat(result, " to ");
+	PositionList* dest = move.to;
+	while(dest){
+		strcat(result, positionToString(dest->data));
+		dest= dest->next;
+	}
+	printf("%s\n", result);
+}
+
+int getIndexOfFirstSpaceOrEnd(char* str) {
 	int i = 0;
 	while (str[i] != '\0' && str[i] != ' ') {
 		i++;

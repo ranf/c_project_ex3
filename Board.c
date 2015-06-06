@@ -46,7 +46,7 @@ int otherPlayer(int player) {
 			: WHITE_COLOR;
 }
 
-void printBoard(char board[BOARD_SIZE][BOARD_SIZE])
+void printBoard(Board board)
 {
 	int i,j;
 	printBoardLineSeperator();
@@ -66,7 +66,8 @@ void printBoard(char board[BOARD_SIZE][BOARD_SIZE])
 	printf("\n");
 }
 
-void initBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
+Board initBoard() {
+	char board[BOARD_SIZE][BOARD_SIZE];
 	int i,j;
 	for (i = 0; i < BOARD_SIZE; i++){
 		for (j = 0; j < BOARD_SIZE; j++){
@@ -86,6 +87,7 @@ void initBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
 			}
 		}
 	}
+	return board;
 }
 
 void printBoardLineSeperator() {

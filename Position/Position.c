@@ -26,6 +26,17 @@ PositionList* parseDestination(char* destString){
 	return list;
 }
 
+char* positionToString(Position position) {
+	char result[6];
+	result[0] = '<';
+	result[1] = position.x + 'a' - 1;
+	result[2] = ',';
+	result[3] = position.y;
+	result[4] = '>'
+	result[5] = '\0';
+	return result;
+}
+
 PositionList* createPositionList(Position position) {
 	PositionList* result = malloc(sizeof(Position));
 	result->data = position;

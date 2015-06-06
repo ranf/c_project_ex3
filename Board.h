@@ -25,8 +25,8 @@ bool isKing(char value);
 bool isWhite(char value);
 bool isBlack(char value);
 int otherPlayer(int player);
-void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
-void init_board(char board[BOARD_SIZE][BOARD_SIZE]);
+void printBoard(Board board);
+Board initBoard();
 void printBoardLineSeperator();
 
 #endif

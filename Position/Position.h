@@ -26,5 +26,6 @@ Position upperLeftDiagonal(Position p);
 Position upperRightDiagonal(Position p);
 Position lowerLeftDiagonal(Position p);
 Position lowerRightDiagonal(Position p);
+char* positionToString(Position position);
 
 #endif
