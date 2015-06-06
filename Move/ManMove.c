@@ -1,6 +1,6 @@
 #include "ManMove.h"
 
-MoveList* getManMoves(Position position, char** board, player) {
+MoveList* getManMoves(Position position, char** board, int player) {
 	MoveList* result = NULL;
 	Position leftPosition = upperLeftDiagonal(position);
 	if(isValidPosition(leftPosition)) {

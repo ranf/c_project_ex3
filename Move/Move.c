@@ -100,7 +100,7 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 	return false;
 }
 
-MoveList* getKingMoves(Position position, char** board, player) {
+MoveList* getKingMoves(Position position, char** board, int player) {
 	return NULL;//TODO
 }
 
