@@ -18,6 +18,6 @@ Settings moveCommand(Settings settings, char* moveString);
 char** applyMove(char** board, Move move);
 int getIndexOfFirstSpaceOrEnd(char* str);
 void printAllMoves(MoveList* moves);
-void printMove(Move move);
+void printMove(Move* move);
 
 #endif

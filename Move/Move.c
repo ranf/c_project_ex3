@@ -50,14 +50,13 @@ Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	return newMove;
 }
 
-Move parseMove(char* moveString) {
+Move* parseMove(char* moveString) {
 	char initialPosition[6];
 	strncpy(initialPosition, moveString, 5);
 	initialPosition[5] = '\0';
 	Position from = parsePosition(initialPosition);
 	PositionList* to = parseDestination(moveString + 9);//<x,y>_to_
-	Move move = {.from = from, .to = to};
-	return move;
+	return createMove(from, to, NULL, 0);
 }
 
 bool validateMove(Move* move, char** board, int player) {

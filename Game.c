@@ -44,8 +44,8 @@ Settings userTurn(Settings settings) {
 }
 
 Settings moveCommand(Settings settings, char* moveString) {
-	Move move = parseMove(moveString);
-	if(validateMove(&move, settings.board, settings.userColor)){
+	Move* move = parseMove(moveString);
+	if(validateMove(move, settings.board, settings.userColor)){
 		settings.board = applyMove(settings.board, move);
 		freeMove(move);
 		return settings;
@@ -84,14 +84,14 @@ void printAllMoves(MoveList* moves) {
 	}
 }
 
-void printMove(Move move) {
+void printMove(Move* move) {
 	char result[MAX_COMMAND_LENGTH];
 	result[0] = '\0';
 	char tempPositionString[6];
-	positionToString(move.from, tempPositionString);
+	positionToString(move->from, tempPositionString);
 	strcat(result, tempPositionString);
 	strcat(result, " to ");
-	PositionList* dest = move.to;
+	PositionList* dest = move->to;
 	while(dest){
 		positionToString(dest->data, tempPositionString);
 		strcat(result, tempPositionString);

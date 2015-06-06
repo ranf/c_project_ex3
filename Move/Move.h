@@ -25,7 +25,7 @@ typedef struct move_list_struct {
 
 MoveList* bestMoveList(MoveList* list1, MoveList* list2);
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition);
-Move parseMove(char* moveString);
+Move* parseMove(char* moveString);
 bool validateMove(Move* move, char** board, int player);
 bool moveInLegalMoves(Move* move, char** board, int player);
 bool moveInList(MoveList* list, Move* moveToFind);
