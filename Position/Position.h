@@ -26,7 +26,9 @@ Position upperLeftDiagonal(Position p);
 Position upperRightDiagonal(Position p);
 Position lowerLeftDiagonal(Position p);
 Position lowerRightDiagonal(Position p);
-char* positionToString(Position position);
+void positionToString(Position position, char* str);
 PositionList* copyPositionList(PositionList* original);
+
+#include "../Board.h"
 
 #endif

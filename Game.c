@@ -87,11 +87,14 @@ void printAllMoves(MoveList* moves) {
 void printMove(Move move) {
 	char result[MAX_COMMAND_LENGTH];
 	result[0] = '\0';
-	strcat(result, positionToString(move.from));
+	char tempPositionString[6];
+	positionToString(move.from, tempPositionString);
+	strcat(result, tempPositionString);
 	strcat(result, " to ");
 	PositionList* dest = move.to;
 	while(dest){
-		strcat(result, positionToString(dest->data));
+		positionToString(dest->data, tempPositionString);
+		strcat(result, tempPositionString);
 		dest= dest->next;
 	}
 	printf("%s\n", result);

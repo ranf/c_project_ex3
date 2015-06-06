@@ -26,15 +26,13 @@ PositionList* parseDestination(char* destString){
 	return list;
 }
 
-char* positionToString(Position position) {
-	char result[6];
-	result[0] = '<';
-	result[1] = position.x + 'a' - 1;
-	result[2] = ',';
-	result[3] = position.y;
-	result[4] = '>'
-	result[5] = '\0';
-	return result;
+void positionToString(Position position, char* str) {
+	str[0] = '<';
+	str[1] = position.x + 'a' - 1;
+	str[2] = ',';
+	str[3] = position.y;
+	str[4] = '>';
+	str[5] = '\0';
 }
 
 PositionList* createPositionList(Position position) {

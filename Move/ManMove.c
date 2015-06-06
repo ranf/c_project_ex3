@@ -43,11 +43,10 @@ MoveList* createMoveList(Move* move) {
 }
 
 MoveList* aManEats(Position from, char** board, Move* previousMove, int player) {
-	int maxToEat = previousMove->eatCount;
-	MoveList* upperLeftMoves = getUpperLeftEatList(from, board, previousMove);
-	MoveList* upperRightMoves = getUpperRightEatList(from, board, previousMove);
-	MoveList* lowerLeftMoves = getLowerLeftEatList(from, board, previousMove);
-	MoveList* lowerRightMoves = getLowerRightEatList(from, board, previousMove);
+	MoveList* upperLeftMoves = getUpperLeftEatList(from, board, previousMove, player);
+	MoveList* upperRightMoves = getUpperRightEatList(from, board, previousMove, player);
+	MoveList* lowerLeftMoves = getLowerLeftEatList(from, board, previousMove, player);
+	MoveList* lowerRightMoves = getLowerRightEatList(from, board, previousMove, player);
 	if(upperLeftMoves == NULL&&upperRightMoves==NULL&&lowerLeftMoves==NULL&&lowerRightMoves==NULL)
 		return createMoveList(previousMove);
 	return bestMoveList(bestMoveList(bestMoveList(upperLeftMoves, upperRightMoves), lowerLeftMoves), lowerRightMoves);
@@ -75,7 +74,7 @@ MoveList* getUpperRightEatList(Position from, char** board, Move* previousMove, 
 		&& getValueInPosition(upperRightDiagonal(rightPosition), board) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, upperRightDiagonal(rightPosition), rightPosition);
-		char** boardCopy = setBoard(board, leftPosition, EMPTY);
+		char** boardCopy = setBoard(board, rightPosition, EMPTY);
 		MoveList* list = aManEats(from, boardCopy, newMove, player);
 		freeBoard(boardCopy);
 		return list;
@@ -105,7 +104,7 @@ MoveList* getLowerRightEatList(Position from, char** board, Move* previousMove, 
 		&& getValueInPosition(lowerRightDiagonal(rightPosition), board) == EMPTY) {
 		
 		Move* newMove = addEatToMove(previousMove, lowerRightDiagonal(rightPosition), rightPosition);
-		char** boardCopy = setBoard(board, leftPosition, EMPTY);
+		char** boardCopy = setBoard(board, rightPosition, EMPTY);
 		MoveList* list = aManEats(from, boardCopy, newMove, player);
 		freeBoard(boardCopy);
 		return list;
