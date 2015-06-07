@@ -112,3 +112,14 @@ void printBoardLineSeperator() {
 	}
 	printf("|\n");
 }
+
+void clearBoard(char** board) {
+	int i ,j ;
+	for (i = 0; i < BOARD_SIZE; i++){
+		for (j = 0; j < BOARD_SIZE; j++){
+			if ((i + j) % 2 == 0){
+				board[i][j] = EMPTY;
+			}
+		}
+	}
+}

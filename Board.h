@@ -29,5 +29,6 @@ char** initBoard();
 void printBoardLineSeperator();
 char** mallocBoard();
 void freeBoard(char** board);
+void clearBoard(char** board);
 
 #endif

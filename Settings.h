@@ -2,6 +2,8 @@
 #define SETTINGS_
 
 #include "Board.h"
+#include "Position/Position.h"
+#include <stdbool.h>
 
 #define SETTINGS_STATE 0
 #define GAME_STATE 1
@@ -17,5 +19,6 @@ typedef struct {
 } Settings;
 
 Settings getSettings();
+bool isPositionOnTheBoard(char* x, char* y);
 
 #endif

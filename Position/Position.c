@@ -4,6 +4,7 @@ Position parsePosition(char* positionString) {
 	//assuming valid string
 	char xLetter = positionString[1];
 	char yDigit = positionString[3];
+	//TODO fix for bigger numbers
 	int x = xLetter - 'a' + 1;
 	int y = yDigit - '0';
 	Position p = {.x = x, .y = y};
