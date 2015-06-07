@@ -1,5 +1,5 @@
 CFLAGS=-std=c99 -pedantic-errors -c -Wall -g -lm
-OBJ=Draughts.o Settings.o Game.o Board.o Move/Move.o Move/ManMove.o Position/Position.o
+OBJ=Draughts.o Settings.o Game.o Board.o Utils.o Move/Move.o Move/ManMove.o Position/Position.o
 
 all: Draughts 
 
@@ -20,6 +20,9 @@ Game.o: Game.h Game.c
 
 Board.o: Board.h Board.c
 	gcc $(CFLAGS) Board.c
+
+Utils.o: Utils.h Utils.c
+	gcc $(CFLAGS) Utils.c
 
 Move/Move.o: Move/Move.h Move/Move.c
 	gcc $(CFLAGS) Move/Move.c -o Move/Move.o

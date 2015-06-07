@@ -3,6 +3,7 @@
 
 #include "Board.h"
 #include "Position/Position.h"
+#include "Utils.h"
 #include <stdbool.h>
 
 #define SETTINGS_STATE 0

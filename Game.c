@@ -50,7 +50,7 @@ Settings userTurn(Settings settings) {
 
 Settings moveCommand(Settings settings, char* moveString) {
 	Move* move = parseMove(moveString);
-	if(validateMove(move, settings.board, settings.userColor)){
+	if(move && validateMove(move, settings.board, settings.userColor)){
 		settings.board = applyMove(settings.board, move);
 		freeMove(move);
 		return settings;

@@ -14,17 +14,46 @@ Move* findBestMove(char** board, int minimaxDepth, int player) {
 	return bestMove;
 }
 
-Move* findMaxScore(MoveList* possibleMoves, char** board, int additionalChecks, int player) {
+ScoredMove findMaxScoreMove(MoveList* possibleMoves, char** board, int additionalChecks, int player) {
 	if(additionalChecks == 0) {
-		// possibleMoves find with max score
-		//		apply
-		//		scoreBoard
-		//		return the move with bet score
+		return maxScoreMoveInList(possibleMoves, board, player);
 	}
-	//foreach move
-	//	apply move
-	//	get other player moves
-	//	recursive call to find the best out of them
+	ScoredMove result = {.score = -101};
+	MoveList* head = possibleMoves;
+	while (head) {
+		tempBoard = copyBoard(board);
+		tempBoard = applyMove(tempBoard, head->data);
+		MoveList* otherPlayerMoves = getMoves(tempBoard, otherPlayer(player));
+		ScoredMove otherPlayerBestMove = findMaxScoreMove(otherPlayerMoves,
+			tempBoard, additionalChecks - 1, otherPlayer(player));
+		if(result.score < -otherPlayerBestMove.score) {
+			result.score = -otherPlayerBestMove.score;
+			result.move = head->data;
+		}
+		freeBoard(tempBoard);
+		freeMoves(otherPlayerMoves);
+		head = head->next;
+	}
+	return result;
+}
+
+ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player) {
+	int maxScore = -101;
+	Move* maxMove = NULL;
+	char** tempBoard;
+	MoveList* head = possibleMoves;
+	while (head) {
+		tempBoard = copyBoard(board);
+		tempBoard = applyMove(tempBoard, head->data);
+		int tempScore = scoreBoard(board, player);
+		if(tempScore > maxScore) {
+			maxScore = tempScore;
+			maxMove = head->data;
+		}
+		freeBoard(tempBoard);
+	}
+	ScoredMove result = {.move = maxMove, .score = maxScore};
+	return result;
 }
 
 int scoreBoard(char** board, int player) {
