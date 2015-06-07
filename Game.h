@@ -3,6 +3,7 @@
 
 #include "Settings.h"
 #include "Move/Move.h"
+#include "Move/Minimax.h"
 #include "Board.h"
 #include "Utils.h"
 #include <string.h>

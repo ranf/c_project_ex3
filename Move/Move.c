@@ -23,7 +23,7 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 }
 
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
-	Move* newMove = createMove(move->from, copyPositionList(move->to), copyPositionList(move->eatenAt), move->eatCount);
+	Move* newMove = copyMove(move);
 	PositionList* newPositionNode = createPositionList(eatPosition);
 	PositionList* head = newMove->to;
 	if(head==NULL){
@@ -48,6 +48,11 @@ Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	newMove->eatCount++; 
 
 	return newMove;
+}
+
+Move* copyMove(Move* move) {
+	return createMove(move->from, copyPositionList(move->to),
+		copyPositionList(move->eatenAt), move->eatCount);
 }
 
 Move* parseMove(char* moveString) {

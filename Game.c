@@ -18,8 +18,10 @@ void startGame(Settings settings) {
 }
 
 Settings computerTurn(Settings settings) {
-	//Move computerMove = findBestMove(board, minimaxDepth, computerColor);
-	//applyMove(board, computerMove);
+	Move* computerMove = findBestMove(board, minimaxDepth, computerColor);
+	settings.board = applyMove(board, computerMove);
+	freeMove(computerMove);
+	return settings;
 }
 
 Settings userTurn(Settings settings) {
