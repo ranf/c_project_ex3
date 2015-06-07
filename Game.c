@@ -9,10 +9,13 @@ void startGame(Settings settings) {
 		if(settings.state == TERMINATE_STATE)
 				return;
 		printBoard(settings.board);
-		// if(gameEnded()) {
-		// 	xWon();
-		// 	settings.state = TERMINATING_STATE;
-		// }
+		if(playerWon(settings.board, playingColor)) {
+			char* winningMessage = playingColor == WHITE_COLOR
+				? WHITE_PLAYER_WINS
+				: BLACK_PLAER_WINS;
+			printMessage(winningMessage);
+			settings.state = TERMINATE_STATE;
+		}
 		playingColor = otherPlayer(playingColor);
 	}
 }
@@ -100,6 +103,15 @@ void printMove(Move* move) {
 		dest= dest->next;
 	}
 	printf("%s\n", result);
+}
+
+bool playerWon(char** board, int playerColor) {
+	MoveList* otherPlayerMoves = getMoves(board, otherPlayer(player));
+	if (otherPlayerMoves) {
+		freeMoves(otherPlayerMoves);
+		return true;
+	}
+	return false;
 }
 
 int getIndexOfFirstSpaceOrEnd(char* str) {

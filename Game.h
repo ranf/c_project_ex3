@@ -7,6 +7,7 @@
 #include "Board.h"
 #include "Utils.h"
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_COMMAND_LENGTH 150
 #define ENTER_YOUR_MOVE "Enter your move:\n" 
@@ -20,5 +21,6 @@ char** applyMove(char** board, Move* move);
 int getIndexOfFirstSpaceOrEnd(char* str);
 void printAllMoves(MoveList* moves);
 void printMove(Move* move);
+bool playerWon(char** board, int playerColor);
 
 #endif
