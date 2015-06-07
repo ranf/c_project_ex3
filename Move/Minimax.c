@@ -64,13 +64,12 @@ int scoreBoard(char** board, int player) {
 
 	int score = 0;
 	for (int i = 0; i < BOARD_SIZE; ++i)
-	for (int j = 0; j < BOARD_SIZE; ++j)
-	{
-		score = player == WHITE_COLOR
-			? score + scoreChar(board[i][j])
-			: score - scoreChar(board[i][j]);
+	for (int j = 0; j < BOARD_SIZE; ++j) {
+		score += scoreChar(board[i][j]);
 	}
-	return score;
+	return player == WHITE_COLOR
+		? score
+		: -score;
 }
 
 int scoreChar(char val) {
