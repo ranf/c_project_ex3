@@ -14,9 +14,8 @@ Position parsePosition(char* positionString) {
 }
 
 PositionList* parseDestination(char* destString){
-	PositionList* list = malloc(sizeof(PositionList));
 	Position p = parsePosition(destString);
-	list->data = p;
+	PositionList* list = createPositionList(p);
 	PositionList* head = list;
 	int i = 5;
 	while (destString[i] == '<') {

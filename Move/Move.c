@@ -19,7 +19,7 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 		head = head->next;
 	}
 	head->next = list2;
-	return head;
+	return list1;
 }
 
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
