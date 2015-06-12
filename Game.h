@@ -10,7 +10,6 @@
 #include <stdbool.h>
 
 #define ENTER_YOUR_MOVE "Enter your move:\n" 
-#define ILLEGAL_COMMAND "Illegal command, please try again\n"
 
 void startGame(Settings settings);
 Settings computerTurn(Settings settings);

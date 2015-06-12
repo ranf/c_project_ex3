@@ -6,9 +6,9 @@ Settings getSettings() {
 	printMessage(ENTER_SETTINGS_MESSAGE);
 	while (settings.state == SETTINGS_STATE) {
 		char* cmd = readString();
-		switch (getCmdType(cmdString)) {
+		switch (getCmdType(cmd)) {
 			case MINIMAX_DEPTH:
-				settings = setMinimaxdepth(settings,cmd);
+				settings = setMinimaxDepth(settings, cmd);
 				break;
 			case USER_COLOR:
 				settings = setUserColor(settings,cmd);
@@ -35,12 +35,12 @@ Settings getSettings() {
 				printMessage(ILLEGAL_COMMAND);
 				break;
 		}
-		free(cmdString);
+		free(cmd);
 	}
 	return settings;
 }
 
-Settings setMinimaxdepth (Settings settings, char* cmd){
+Settings setMinimaxDepth(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	int minimaxDepth = charToInt(*cmdValue);
 	if (minimaxDepth <= 6 && minimaxDepth >= 1){
@@ -51,35 +51,37 @@ Settings setMinimaxdepth (Settings settings, char* cmd){
 	return settings;
 }
 
-Settings setUserColor (Settings settings,char* cmd) {
+Settings setUserColor(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
 	return settings;
 }
 
-void removeDisc (char** board) {
+void removeDisc(char** board, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	Position p = parsePosition(cmdValue);
 	if (validPosition(p))
-		setting.board[x][y] = EMPTY;
+		board[p.x][p.y] = EMPTY;
 	else
 		printf("Invalid on the board\n");
 }
 
-void setDisc (char** board, char* cmd) {
-	char* cmdValue = strchr(cmd, ' ');
-	char*[]  splitted =  split(cmdValue, " ");
-	Position p = parsePosition(splitted[0]);
-	if (validPosition(p)) {
-		char v = EMPTY;
-		if(isWhite(splitted[1]))
-			v = isKing(splitted[2]) ? WHITE_K : WHITE_M;
-		else
-			v = isKing(splitted[2]) ? BLACK_K : BLACK_M;
-		setting.board[x][y] = v;
-	} else {
-		printf("Invalid on the board\n");
-	}
+void setDisc(char** board, char* cmd) {
+	//splitted is array of strings but used sometimes as chars
+
+	// char* cmdValue = strchr(cmd, ' ');
+	// char*[]  splitted = split(cmdValue, " ");
+	// Position p = parsePosition(splitted[0]);
+	// if (validPosition(p)) {
+	// 	char v = EMPTY;
+	// 	if(isWhite(splitted[1]))
+	// 		v = isKing(splitted[2]) ? WHITE_K : WHITE_M;
+	// 	else
+	// 		v = isKing(splitted[2]) ? BLACK_K : BLACK_M;
+	// 	board[p.x][p.y] = v;
+	// } else {
+	// 	printf("Invalid on the board\n");
+	// }
 }
 
 int getCmdType(char* cmdString) {
@@ -108,20 +110,24 @@ bool startsWith(const char *str, const char *pre) {
 	return lenstr < lenpre ? false : strncmp(pre, str, lenpre) == 0;
 }
 
-int charToInt (char* cmd) {
-	int val = (int)*cmd;
+int charToInt(char* cmd) {
+	return (int)*cmd;
 }
 
-char[] split(char* str, char delim) {
-	char*[3] splitted;
-	char *token;
-	token = strtok(str, delim);
-	int i=0;
-	while(token != NULL) {
-		splitted[i] = token;
-		i++;   
-		token = strtok(NULL, s);
-	}
+//function signature and implementation is wrong
+//	cannot return array that was allocated on the stack inside the function
+//	either receive "char* target[3]" as argument or allocate on the heap and return pointer
+//
+// char[] split(char* str, char delim) {
+// 	char*[3] splitted;
+// 	char *token;
+// 	token = strtok(str, delim);
+// 	int i=0;
+// 	while(token != NULL) {
+// 		splitted[i] = token;
+// 		i++;   
+// 		token = strtok(NULL, s);
+// 	}
 
-	return splitted;
-}
+// 	return splitted;
+// }

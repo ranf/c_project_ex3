@@ -5,6 +5,7 @@
 #include "Position/Position.h"
 #include "Utils.h"
 #include <stdbool.h>
+#include <string.h>
 
 #define SETTINGS_STATE 0
 #define GAME_STATE 1
@@ -21,6 +22,7 @@
 #define PRINT_CMD 11
 
 #define ENTER_SETTINGS_MESSAGE "Enter game settings:\n"
+#define ILLEGAL_COMMAND "Illegal command, please try again\n"
 
 typedef struct {
 	int state;
@@ -30,10 +32,13 @@ typedef struct {
 } Settings;
 
 Settings getSettings();
-void setMinimaxdepth(Settings settings);
-void setUserColor(Settings settings);
-void removeDisc(char** board);
-void setDisc(char** board);
+Settings setMinimaxDepth(Settings settings, char* cmd);
+Settings setUserColor (Settings settings, char* cmd);
+void removeDisc(char** board, char* cmd);
+void setDisc(char** board, char* cmd);
 
+int getCmdType(char* cmdString);
+bool startsWith(const char *str, const char *pre);
+int charToInt(char* cmd);
 
 #endif
