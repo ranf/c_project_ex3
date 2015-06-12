@@ -30,10 +30,10 @@ typedef struct {
 } Settings;
 
 Settings getSettings();
-void setMinimaxdepth (Settings settings);
-void setUserColor (Settings settings);
-void removeDisc (char** board);
-void setDisc (char** board);
+void setMinimaxdepth(Settings settings);
+void setUserColor(Settings settings);
+void removeDisc(char** board);
+void setDisc(char** board);
 
 
 #endif
