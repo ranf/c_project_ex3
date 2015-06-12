@@ -45,6 +45,7 @@ MoveList* getMovesInDirection(MoveList* result, char** board, int player,
 MoveList* createMoveList(Move* move) {
 	MoveList* result = malloc(sizeof(MoveList));
 	result->data = move;
+	result->next = NULL;
 	result->maxToEat = move->eatCount;
 	return result;
 }
