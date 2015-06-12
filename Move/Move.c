@@ -57,7 +57,7 @@ Move* copyMove(Move* move) {
 
 Move* parseMove(char* moveString) {
 	char initialPosition[7];
-	bool isDoubleDigits = moveString[4] == '>';
+	bool isDoubleDigits = moveString[4] != '>';
 	if (isDoubleDigits) {
 		strncpy(initialPosition, moveString, 6);
 		initialPosition[6] = '\0';

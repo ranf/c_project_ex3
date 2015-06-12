@@ -77,7 +77,7 @@ void printAllMoves(MoveList* moves) {
 void printMove(Move* move) {
 	char result[MAX_MOVE_LENGTH];
 	result[0] = '\0';
-	char tempPositionString[6];
+	char tempPositionString[7];
 	positionToString(move->from, tempPositionString);
 	strcat(result, tempPositionString);
 	strcat(result, " to ");
