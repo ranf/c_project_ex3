@@ -107,12 +107,6 @@ int getCmdType(char* cmdString) {
 	return PRINT_CMD;
 }
 
-bool startsWith(const char *str, const char *pre) {
-	size_t lenpre = strlen(pre);
-	size_t lenstr = strlen(str);
-	return lenstr < lenpre ? false : strncmp(pre, str, lenpre) == 0;
-}
-
 int charToInt(char cmd) {
 	return (int)cmd;
 }

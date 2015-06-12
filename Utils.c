@@ -25,3 +25,9 @@ char* readString()
     str[len++]='\0';
     return realloc(str, sizeof(char)*len);
 }
+
+bool startsWith(const char *str, const char *pre) {
+	size_t lenpre = strlen(pre);
+	size_t lenstr = strlen(str);
+	return lenstr < lenpre ? false : strncmp(pre, str, lenpre) == 0;
+}

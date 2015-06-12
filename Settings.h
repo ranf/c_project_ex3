@@ -40,7 +40,6 @@ void removeDisc(char** board, char* cmd);
 void setDisc(char** board, char* cmd);
 
 int getCmdType(char* cmdString);
-bool startsWith(const char *str, const char *pre);
 int charToInt(char cmd);
 
 #endif

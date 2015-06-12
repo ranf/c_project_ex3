@@ -9,7 +9,7 @@ Move* findBestMove(char** board, int minimaxDepth, int player) {
 		freeMoves(possibleMoves);
 		return result;
 	}
-	Move* bestMove = findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player);
+	Move* bestMove = findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player).move;
 	freeMoves(possibleMoves);
 	return bestMove;
 }

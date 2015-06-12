@@ -30,8 +30,7 @@ Settings computerTurn(Settings settings) {
 Settings userTurn(Settings settings) {
 	printMessage(ENTER_YOUR_MOVE);
 	char* cmd = readString();
-	int endOfFirstWord = getIndexOfFirstSpaceOrEnd(cmd);
-	if (strncmp(cmd, "move", endOfFirstWord)) {
+	if (startsWith(cmd, "move ")) {
 		settings = moveCommand(settings, cmd + 5);
 	} else if (strcmp(cmd, "get_moves")) {
 		MoveList* moves = getMoves(settings.board, settings.userColor);
@@ -90,12 +89,4 @@ bool playerWon(char** board, int playerColor) {
 		return true;
 	}
 	return false;
-}
-
-int getIndexOfFirstSpaceOrEnd(char* str) {
-	int i = 0;
-	while (str[i] != '\0' && str[i] != ' ') {
-		i++;
-	}
-	return i;
 }
