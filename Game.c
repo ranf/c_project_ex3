@@ -1,22 +1,21 @@
 #include "Game.h"
 
 void startGame(Settings settings) {
-	int playingColor = WHITE_COLOR;
 	while (settings.state == GAME_STATE) {
-		settings = settings.userColor == playingColor
+		settings = settings.userColor == settings.playingColor
 			? userTurn(settings)
 			: computerTurn(settings);
 		if(settings.state == TERMINATE_STATE)
 				return;
 		printBoard(settings.board);
-		if(playerWon(settings.board, playingColor)) {
-			char* winningMessage = playingColor == WHITE_COLOR
+		if(playerWon(settings.board, settings.playingColor)) {
+			char* winningMessage = settings.playingColor == WHITE_COLOR
 				? WHITE_PLAYER_WINS
 				: BLACK_PLAYER_WINS;
 			printMessage(winningMessage);
 			settings.state = TERMINATE_STATE;
 		}
-		playingColor = otherPlayer(playingColor);
+		settings.playingColor = otherPlayer(settings.playingColor);
 	}
 }
 
@@ -31,22 +30,27 @@ Settings computerTurn(Settings settings) {
 
 Settings userTurn(Settings settings) {
 	printMessage(ENTER_YOUR_MOVE);
-	char* cmd = readString();
+	while (settings.state == GAME_STATE && settings.playingColor == settings.userColor) {
+		char* cmd = readString();
+		settings = executeUserCommand(settings, cmd);
+		free(cmd);
+	}
+	return settings;
+}
+
+Settings executeUserCommand(Settings settings, char* cmd) {
 	if (startsWith(cmd, "move ")) {
 		settings = moveCommand(settings, cmd + 5);
+		settings.playingColor = otherPlayer(settings.userColor);
 	} else if (strcmp(cmd, "get_moves") == 0) {
 		MoveList* moves = getMoves(settings.board, settings.userColor);
 		printAllMoves(moves);
 		freeMoves(moves);
-		settings = userTurn(settings);
 	} else if (strcmp(cmd, "quit") == 0) {
 		settings.state = TERMINATE_STATE;
 	} else {
 		printMessage(ILLEGAL_COMMAND);
-		settings = userTurn(settings);
 	}
-	free(cmd);
-	return settings;
 }
 
 Settings moveCommand(Settings settings, char* moveString) {

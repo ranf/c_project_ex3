@@ -19,7 +19,7 @@ void startGame(Settings settings);
 Settings computerTurn(Settings settings);
 Settings userTurn(Settings settings);
 Settings moveCommand(Settings settings, char* moveString);
-int getIndexOfFirstSpaceOrEnd(char* str);
+Settings executeUserCommand(Settings settings, char* cmd);
 void printAllMoves(MoveList* moves);
 void printMove(Move* move);
 bool playerWon(char** board, int playerColor);

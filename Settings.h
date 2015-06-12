@@ -30,6 +30,7 @@ typedef struct {
 	int state;
 	int minimaxDepth;
 	int userColor;
+	int playingColor;
 	char** board;
 } Settings;
 
