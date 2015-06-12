@@ -19,7 +19,9 @@ MoveList* getManMoves(Position position, char** board, int player) {
 	return result;
 }
 
-MoveList* getMovesInDirection(MoveList* result, char** board, int player, Position from, Position firstPosition, Position nextPosition) {
+MoveList* getMovesInDirection(MoveList* result, char** board, int player,
+	Position from, Position firstPosition, Position nextPosition) {
+	
 	if(!validPosition(firstPosition))
 		return result;
 

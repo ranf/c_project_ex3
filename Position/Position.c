@@ -1,16 +1,15 @@
 #include "Position.h"
 
 Position parsePosition(char* positionString) {
-	Position p;
+	Position p = {.x = -1, .y = -1};
 	if(positionString[0] != '<' || positionString[2] != ','
 		|| positionString[4] != '>') {
 		return p;
 	}
 	char xLetter = positionString[1];
 	char yDigit = positionString[3];
-	int x = xLetter - 'a' + 1;
-	int y = yDigit - '0';
-	p = {.x = x, .y = y};
+	p.x = xLetter - 'a' + 1;
+	p.y = yDigit - '0';
 	return p;
 }
 
