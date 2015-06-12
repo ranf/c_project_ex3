@@ -1,7 +1,7 @@
 #include "Settings.h"
 
 Settings getSettings() {
-	Settings settings = {.state = SETTINGS_STATE, .userColor = WHITE_COLOR};
+	Settings settings = {.state = SETTINGS_STATE, .userColor = WHITE_COLOR, .minimaxDepth = 1};
 	settings.board = initBoard();
 	printMessage(ENTER_SETTINGS_MESSAGE);
 	while (settings.state == SETTINGS_STATE) {

@@ -32,12 +32,12 @@ Settings userTurn(Settings settings) {
 	char* cmd = readString();
 	if (startsWith(cmd, "move ")) {
 		settings = moveCommand(settings, cmd + 5);
-	} else if (strcmp(cmd, "get_moves")) {
+	} else if (strcmp(cmd, "get_moves") == 0) {
 		MoveList* moves = getMoves(settings.board, settings.userColor);
 		printAllMoves(moves);
 		freeMoves(moves);
 		settings = userTurn(settings);
-	} else if (strcmp(cmd, "quit")) {
+	} else if (strcmp(cmd, "quit") == 0) {
 		settings.state = TERMINATE_STATE;
 	} else {
 		printMessage(ILLEGAL_COMMAND);
