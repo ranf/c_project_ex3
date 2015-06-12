@@ -7,5 +7,6 @@
 #define printMessage(message) (printf("%s", message))
 
 void* mallocAndVerify(size_t size);
+char* readString();
 
 #endif

@@ -29,8 +29,7 @@ Settings computerTurn(Settings settings) {
 
 Settings userTurn(Settings settings) {
 	printMessage(ENTER_YOUR_MOVE);
-	char cmd[MAX_COMMAND_LENGTH];
-	scanf("%s", cmd);
+	char* cmd = readString();
 	int endOfFirstWord = getIndexOfFirstSpaceOrEnd(cmd);
 	if (strncmp(cmd, "move", endOfFirstWord)) {
 		settings = moveCommand(settings, cmd + 5);
@@ -45,6 +44,7 @@ Settings userTurn(Settings settings) {
 		printMessage(ILLEGAL_COMMAND);
 		settings = userTurn(settings);
 	}
+	free(cmd);
 	return settings;
 }
 

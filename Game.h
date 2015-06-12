@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define MAX_COMMAND_LENGTH 150
 #define ENTER_YOUR_MOVE "Enter your move:\n" 
 #define ILLEGAL_COMMAND "Illegal command, please try again\n"
 
