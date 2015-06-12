@@ -6,7 +6,7 @@ Settings startGame(Settings settings) {
 			? userTurn(settings)
 			: computerTurn(settings);
 		if(settings.state == TERMINATE_STATE)
-				return;
+				return settings;
 		printBoard(settings.board);
 		if(playerWon(settings.board, settings.playingColor)) {
 			char* winningMessage = settings.playingColor == WHITE_COLOR
