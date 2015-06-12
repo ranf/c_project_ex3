@@ -51,6 +51,7 @@ ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player)
 			maxMove = head->data;
 		}
 		freeBoard(tempBoard);
+		head = head->next;
 	}
 	ScoredMove result = {.move = maxMove, .score = maxScore};
 	return result;

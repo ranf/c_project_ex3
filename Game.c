@@ -86,7 +86,7 @@ bool playerWon(char** board, int playerColor) {
 	MoveList* otherPlayerMoves = getMoves(board, otherPlayer(playerColor));
 	if (otherPlayerMoves) {
 		freeMoves(otherPlayerMoves);
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
