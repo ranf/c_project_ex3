@@ -18,6 +18,7 @@ void startGame(Settings settings) {
 		}
 		playingColor = otherPlayer(playingColor);
 	}
+	freeBoard(settings.board);
 }
 
 Settings computerTurn(Settings settings) {

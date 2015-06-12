@@ -95,7 +95,7 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 	while(head){
 		if(positionEquals(head->data->from, moveToFind->from) &&
 			positionListEquals(head->data->to, moveToFind->to)){
-			moveToFind->eatenAt = copyPositionList(head->data->to);
+			moveToFind->eatenAt = copyPositionList(head->data->eatenAt);
 			moveToFind->eatCount = head->data->eatCount;
 			return true;
 		}
