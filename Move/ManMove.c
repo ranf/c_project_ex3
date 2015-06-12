@@ -12,8 +12,8 @@ MoveList* getManMoves(Position position, char** board, int player) {
 		? upperRightDiagonal(position)
 		: lowerRightDiagonal(position);
 	Position nextRightPosition = player == WHITE_COLOR
-		? upperRightDiagonal(leftPosition)
-		: lowerRightDiagonal(leftPosition);
+		? upperRightDiagonal(rightPosition)
+		: lowerRightDiagonal(rightPosition);
 	result = getMovesInDirection(result, board, player, position, leftPosition, nextLeftPosition);
 	result = getMovesInDirection(result, board, player, position, rightPosition, nextRightPosition);
 	return result;
