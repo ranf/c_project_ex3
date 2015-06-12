@@ -6,5 +6,6 @@ int main()
 	if(settings.state == GAME_STATE) {
 		startGame(settings);
 	}
+	freeBoard(settings.board);
 	return 0;
 }

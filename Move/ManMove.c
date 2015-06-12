@@ -61,6 +61,7 @@ MoveList* aManEats(Position from, char** board, Move* previousMove, int player) 
 		board, previousMove, player);
 	if(upperLeftMoves == NULL && upperRightMoves == NULL && lowerLeftMoves == NULL && lowerRightMoves == NULL)
 		return createMoveList(previousMove);
+	freeMove(previousMove);
 	return bestMoveList(bestMoveList(bestMoveList(upperLeftMoves, upperRightMoves), lowerLeftMoves), lowerRightMoves);
 }
 

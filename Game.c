@@ -2,7 +2,7 @@
 
 void startGame(Settings settings) {
 	int playingColor = WHITE_COLOR;
-	while(settings.state == GAME_STATE) {
+	while (settings.state == GAME_STATE) {
 		settings = settings.userColor == playingColor
 			? userTurn(settings)
 			: computerTurn(settings);
@@ -18,12 +18,13 @@ void startGame(Settings settings) {
 		}
 		playingColor = otherPlayer(playingColor);
 	}
-	freeBoard(settings.board);
 }
 
 Settings computerTurn(Settings settings) {
 	Move* computerMove = findBestMove(settings.board, settings.minimaxDepth, otherPlayer(settings.userColor));
 	settings.board = applyMove(settings.board, computerMove);
+	printf("Computer: move ");
+	printMove(computerMove);
 	freeMove(computerMove);
 	return settings;
 }
