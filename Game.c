@@ -12,7 +12,7 @@ void startGame(Settings settings) {
 		if(playerWon(settings.board, playingColor)) {
 			char* winningMessage = playingColor == WHITE_COLOR
 				? WHITE_PLAYER_WINS
-				: BLACK_PLAER_WINS;
+				: BLACK_PLAYER_WINS;
 			printMessage(winningMessage);
 			settings.state = TERMINATE_STATE;
 		}
@@ -22,7 +22,7 @@ void startGame(Settings settings) {
 
 Settings computerTurn(Settings settings) {
 	Move* computerMove = findBestMove(settings.board, settings.minimaxDepth, otherPlayer(settings.userColor));
-	settings.board = applyMove(board, computerMove);
+	settings.board = applyMove(settings.board, computerMove);
 	freeMove(computerMove);
 	return settings;
 }
