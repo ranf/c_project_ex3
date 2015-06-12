@@ -41,6 +41,7 @@ void positionToString(Position position, char* str) {
 PositionList* createPositionList(Position position) {
 	PositionList* result = malloc(sizeof(Position));
 	result->data = position;
+	result->next = NULL;
 	return result;
 }
 
