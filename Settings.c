@@ -5,60 +5,141 @@ Settings getSettings() {
 	settings.board = initBoard();
 	printMessage(ENTER_SETTINGS_MESSAGE);
 	while (settings.state == SETTINGS_STATE) {
-		char* cmd = readString();
-		char* cmdType = getStringUntilFirstSpace(cmd);
-		char* cmdValue = getStringAfterFirstSpace(cmd);
-		if (strcmp(cmdType, "minimax_depth")) {
-			int minimaxDepth = charToInt(*cmdValue);
-			if (minimaxDepth <= 6 && minimaxDepth >= 1){
-				settings.minimaxDepth = minimaxDepth;
-			} else {
-				printf(WRONG_MINIMAX_DEPTH);
-			}
-		} else if (strcmp(cmdType, "user_color")) {
-			settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
-		} else if (strcmp(cmdType, "clear")) {
+		char* cmd = readString(stdin)
+		switch (getCmdType(cmdString))
+	{
+		case MINIMAX_DEPTH:
+			setMinimaxdepth(settings,cmd);
+			break;
+		case USER_COLOR:
+			setUserColor(settings,cmd);
+			break;
+		case CLEAR:
 			clearBoard(settings.board);
-		} else if (strcmp(cmdType, "rm")) {
-			Position p = parsePosition(cmdValue);
-			if (validPosition(p))
-				setting.board[x][y] = EMPTY;
-			else
-				printf("Invalid on the board\n");
-		} else if (strcmp(cmdType, "set")) {
-			char* x = getStringUntilComma(cmdValue);
-			char* y = getStringUntilFirstSpace(getStringAfterComma(cmdValue));
-			char* a_b = getStringAfterFirstSpace(cmdValue);
-			char* a = getStringUntilFirstSpace(a_b);
-			char* b = getStringAfterFirstSpace(a_b);
-			if (isPositionOnTheBoard(x,y)){
-				char v = EMPTY;
-				if(isWhite(a)) {
-					v = isKing(b)? WHITE_K : WHITE_M;
-				}else{
-					v= isKing(b)? BLACK_K : BLACK_M;
-				}
-				setting.board[x][y] = v;
-			}else{
-				printf("Invalid on the board\n");
-			}
-		} else if (strcmp(cmdType, "print")) {
+			break;
+		case RM:
+			removeDisc(settings.board);
+			break;
+		case SET:
+			setDisc(settings.board);
+			break;
+		case PRINT:
 			printBoard(settings.board);
-		} else if (strcmp(cmdType, "quit")) {
+			break;
+		case QUIT:
 			settings.state = TERMINATE_STATE;
-		} else if (strcmp(cmdType, "start")) {
+			break;
+		case START:
 			settings.state = GAME_STATE;
-		} else {
+			break;
+		case PRINT_CMD:
 			printMessage(ILLEGAL_COMMAND);
-		} 
+			break;
+		default:
+			// should not happen
+			break;
 	}
-	
+	free(cmdString);
 	return settings;
 }
 
-bool isPositionOnTheBoard (char* x, char* y) {
-	return ((x is not in the range a to j)
-		or (y is not in the range 1 to 10)
-		or (x,w=y is white))
+void setMinimaxdepth (Settings settings, char* cmd){
+	char* cmdValue = strchr(cmd, ' ');
+	int minimaxDepth = charToInt(*cmdValue);
+	if (minimaxDepth <= 6 && minimaxDepth >= 1){
+		settings.minimaxDepth = minimaxDepth;
+	} else {
+		printf(WRONG_MINIMAX_DEPTH);
+	}
 }
+void setUserColor (Settings settings,char* cmd){
+	char* cmdValue = strchr(cmd, ' ');
+	settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
+}
+void removeDisc (char** board){
+	char* cmdValue = strchr(cmd, ' ');
+	Position p = parsePosition(cmdValue);
+	if (validPosition(p))
+		setting.board[x][y] = EMPTY;
+	else
+		printf("Invalid on the board\n");
+}
+void setDisc (char** board, char* cmd){
+	char* cmdValue = strchr(cmd, ' ');
+	char*[]  splitted =  split (cmdValue, " ");
+	Position p = parsePosition(splitted[0]);
+	if (validPosition(p))
+		char v = EMPTY;
+		if(isWhite(splitted[1])) {
+			v = isKing(splitted[2])? WHITE_K : WHITE_M;
+		}else{
+			v= isKing(splitted[2])? BLACK_K : BLACK_M;
+		}
+		setting.board[x][y] = v;
+	}else{
+		printf("Invalid on the board\n");
+	}
+}
+int getCmdType(char* cmdString)
+{
+	if(startsWith(cmdString, "minimax_depth"))
+		return MINIMAX_DEPTH;
+	if(startsWith(cmdString, "user_color"))
+		return USER_COLOR;
+	if(startsWith(cmdString, "clear"))
+		return CLEAR;
+	if(startsWith(cmdString, "rm"))
+		return RM;
+	if(startsWith(cmdString, "set"))
+		return SET;
+	if(startsWith(cmdString, "print"))
+		return PRINT;
+	if(startsWith(cmdString, "quit"))
+		return QUIT;
+	if(startsWith(cmdString, "start"))
+		return START;
+	return PRINT_CMD;
+}
+bool startsWith(const char *str, const char *pre)
+{
+	size_t lenpre = strlen(pre);
+	size_t lenstr = strlen(str);
+	return lenstr < lenpre ? false : strncmp(pre, str, lenpre) == 0;
+}
+char* readString(FILE* fp)
+{
+	size_t size = 10;
+	char *str;
+	int ch;
+	size_t len = 0;
+    str = safeRealloc(NULL, sizeof(char)*size);//size is start size
+    if(!str)return str;
+    while(EOF!=(ch=fgetc(fp)) && ch != '\n'){
+    	str[len++]=ch;
+    	if(len==size){
+    		str = safeRealloc(str, sizeof(char)*(size+=16));
+    		if(!str)return str;
+    	}
+    }
+    str[len++]='\0';
 
+    return safeRealloc(str, sizeof(char)*len);
+}
+int charToInt (char* cmd){
+	int val = (int)*cmd;
+}
+char[] split (char* str, char delim){
+	char*[3] splitted;
+	char *token;
+	token = strtok(str, delim);
+   	int i=0;
+  	while( token != NULL ) 
+    {
+   splitted[i] = token;
+   i++;   
+   token = strtok(NULL, s);
+   }
+   
+   return splitted;
+}
+}

@@ -9,6 +9,16 @@
 #define GAME_STATE 1
 #define TERMINATE_STATE 2
 
+#define MINIMAX_DEPTH 3
+#define USER_COLOR 4
+#define CLEAR 5
+#define RM 6
+#define SET 7
+#define PRINT 8
+#define QUIT 9
+#define START 10
+#define PRINT_CMD 11
+
 #define ENTER_SETTINGS_MESSAGE "Enter game settings:\n"
 
 typedef struct {
@@ -19,6 +29,10 @@ typedef struct {
 } Settings;
 
 Settings getSettings();
-bool isPositionOnTheBoard(char* x, char* y);
+void setMinimaxdepth (Settings settings);
+void setUserColor (Settings settings);
+void removeDisc (char** board);
+void setDisc (char** board);
+
 
 #endif
