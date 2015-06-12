@@ -21,7 +21,7 @@ ScoredMove findMaxScoreMove(MoveList* possibleMoves, char** board, int additiona
 	ScoredMove result = {.score = -101};
 	MoveList* head = possibleMoves;
 	while (head) {
-		tempBoard = copyBoard(board);
+		char** tempBoard = copyBoard(board);
 		tempBoard = applyMove(tempBoard, head->data);
 		MoveList* otherPlayerMoves = getMoves(tempBoard, otherPlayer(player));
 		ScoredMove otherPlayerBestMove = findMaxScoreMove(otherPlayerMoves,
@@ -57,9 +57,9 @@ ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player)
 }
 
 int scoreBoard(char** board, int player) {
-	if(cannotPlay(board, otherPlayer(player))
+	if (cannotPlay(board, otherPlayer(player)))
 		return WINNING_SCORE;
-	if(hasNoPieces(board, player))
+	if (hasNoPieces(board, player))
 		return LOSING_SCORE;
 
 	int score = 0;
@@ -93,13 +93,14 @@ bool cannotPlay(char** board, int player) {
 			canGoInDirection(board, p, &lowerRightDiagonal, player))))
 			return false;
 	}
+	return true;
 }
 
 bool canGoInDirection(char** board, Position from, Position (*direction)(Position), int player) {
-	return (validPosition(direction(p)) && getValueInPosition(board, direction(p)) == EMPTY) ||
-			(validPosition(direction(p)) && validPosition(direction(direction(p))) &&
-				playerInPosition(board, direction(p), otherPlayer(player)) &&
-				getValueInPosition(board, direction(direction(p))) == EMPTY);
+	return (validPosition(direction(from)) && getValueInPosition(direction(from), board) == EMPTY) ||
+			(validPosition(direction(from)) && validPosition(direction(direction(from))) &&
+				playerInPosition(direction(from), board, otherPlayer(player)) &&
+				getValueInPosition(direction(direction(from)), board) == EMPTY);
 }
 
 int scoreChar(char val) {
