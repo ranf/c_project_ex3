@@ -151,22 +151,15 @@ void freeMove(Move* move) {
 
 char** applyMove(char** board, Move* move) {
 	char movingDisc = getValueInPosition(move->from, board);
-	char** tempBoard = setBoard(board, move->from, EMPTY);
-	freeBoard(board);
-	board = tempBoard;
+	board = setBoardAndFree(board, move->from, EMPTY);
 	PositionList* head = move->eatenAt;
 	while(head){
-		tempBoard = setBoard(board, head->data, EMPTY);
-		freeBoard(board);
-		board = tempBoard;
+		board = setBoardAndFree(board, head->data, EMPTY);
 		head = head->next;
 	}
 	head = move->to;
 	while(head->next){
 		head = head->next;
 	}
-	tempBoard = setBoard(board, head->data, movingDisc);
-	freeBoard(board);
-	board = tempBoard;
-	return board;
+	return setBoardAndFree(board, head->data, movingDisc);
 }
