@@ -17,6 +17,7 @@
 #define EMPTY ' '
 
 char** setBoard(char** board, Position p, char value);
+char** setBoardAndFree(char** board, Position p, char value);
 char** copyBoard(char** board);
 bool playerInPosition(Position position, char** board, int player);
 char getValueInPosition(Position p, char** board);
@@ -32,5 +33,6 @@ void printBoardLineSeperator();
 char** mallocBoard();
 void freeBoard(char** board);
 void clearBoard(char** board);
+bool endOfBoard(Position p, int player);
 
 #endif

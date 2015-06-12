@@ -14,12 +14,12 @@ MoveList* getManMoves(Position position, char** board, int player) {
 	Position nextRightPosition = player == WHITE_COLOR
 		? upperRightDiagonal(leftPosition)
 		: lowerRightDiagonal(leftPosition);
-	result = getMovesInDirection(result, position, leftPosition, nextLeftPosition);
-	result = getMovesInDirection(result, position, rightPosition, nextRightPosition);
+	result = getMovesInDirection(result, board, player, position, leftPosition, nextLeftPosition);
+	result = getMovesInDirection(result, board, player, position, rightPosition, nextRightPosition);
 	return result;
 }
 
-MoveList* getMovesInDirection(MoveList* result, Position from, Position firstPosition, Position nextPosition) {
+MoveList* getMovesInDirection(MoveList* result, char** board, int player, Position from, Position firstPosition, Position nextPosition) {
 	if(!validPosition(firstPosition))
 		return result;
 
@@ -33,7 +33,7 @@ MoveList* getMovesInDirection(MoveList* result, Position from, Position firstPos
 	else if (playerInPosition(firstPosition, board, otherPlayer(player)) && validPosition(nextPosition)
 		&& getValueInPosition(nextPosition, board) == EMPTY) {
 		
-		Move* move  = createMove(from, createPositionList(nextPosition), createPositionList(position), 1);
+		Move* move  = createMove(from, createPositionList(nextPosition), createPositionList(firstPosition), 1);
 		MoveList* moves = applyManEat(from, firstPosition, nextPosition, board, move, player);
 		result = bestMoveList(result, moves);
 	}
@@ -73,7 +73,9 @@ MoveList* getManEatList(Position from, Position positionToEat, Position to, char
 
 MoveList* applyManEat(Position from, Position positionToEat, Position to, char** board, Move* move, int player) {
 	char piece = getValueInPosition(from, board);
-	piece = endOfBoard(to, player) ? crownPiece(piece) : piece;
+	if (endOfBoard(to, player)) {
+		piece = player == WHITE_COLOR ? WHITE_K : BLACK_K;
+	}
 	char** boardCopy = setBoard(board, from, EMPTY);
 	boardCopy = setBoardAndFree(boardCopy, positionToEat, EMPTY);
 	boardCopy = setBoardAndFree(boardCopy, to, piece);

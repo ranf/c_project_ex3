@@ -6,6 +6,12 @@ char** setBoard(char** board, Position p, char value) {
 	return result;
 }
 
+char** setBoardAndFree(char** board, Position p, char value) {
+	char** result = setBoard(board, p, value);
+	freeBoard(board);
+	return result;
+}
+
 char** copyBoard(char** board) {
 	char** copy = mallocBoard();
 	for (int i = 0; i < BOARD_SIZE; i++)
@@ -135,4 +141,9 @@ void clearBoard(char** board) {
 			}
 		}
 	}
+}
+
+bool endOfBoard(Position p, int player) {
+	return (p.y == BOARD_SIZE-1 && player == WHITE_COLOR) ||
+		(p.y = 0 && player == BLACK_COLOR);
 }
