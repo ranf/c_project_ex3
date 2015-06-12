@@ -9,39 +9,97 @@ Move* findBestMove(char** board, int minimaxDepth, int player) {
 		freeMoves(possibleMoves);
 		return result;
 	}
-	Move* bestMove = findMaxScore(possibleMoves, board, minimaxDepth - 1, player);
+	Move* bestMove = findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player);
 	freeMoves(possibleMoves);
 	return bestMove;
 }
 
-Move* findMaxScore(MoveList* possibleMoves, char** board, int additionalChecks, int player) {
+ScoredMove findMaxScoreMove(MoveList* possibleMoves, char** board, int additionalChecks, int player) {
 	if(additionalChecks == 0) {
-		// possibleMoves find with max score
-		//		apply
-		//		scoreBoard
-		//		return the move with bet score
+		return maxScoreMoveInList(possibleMoves, board, player);
 	}
-	//foreach move
-	//	apply move
-	//	get other player moves
-	//	recursive call to find the best out of them
+	ScoredMove result = {.score = -101};
+	MoveList* head = possibleMoves;
+	while (head) {
+		tempBoard = copyBoard(board);
+		tempBoard = applyMove(tempBoard, head->data);
+		MoveList* otherPlayerMoves = getMoves(tempBoard, otherPlayer(player));
+		ScoredMove otherPlayerBestMove = findMaxScoreMove(otherPlayerMoves,
+			tempBoard, additionalChecks - 1, otherPlayer(player));
+		if(result.score < -otherPlayerBestMove.score) {
+			result.score = -otherPlayerBestMove.score;
+			result.move = head->data;
+		}
+		freeBoard(tempBoard);
+		freeMoves(otherPlayerMoves);
+		head = head->next;
+	}
+	return result;
+}
+
+ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player) {
+	int maxScore = -101;
+	Move* maxMove = NULL;
+	char** tempBoard;
+	MoveList* head = possibleMoves;
+	while (head) {
+		tempBoard = copyBoard(board);
+		tempBoard = applyMove(tempBoard, head->data);
+		int tempScore = scoreBoard(board, player);
+		if(tempScore > maxScore) {
+			maxScore = tempScore;
+			maxMove = head->data;
+		}
+		freeBoard(tempBoard);
+	}
+	ScoredMove result = {.move = maxMove, .score = maxScore};
+	return result;
 }
 
 int scoreBoard(char** board, int player) {
-	if(playerWon(player))
-		return 100;
-	if(playerWon(otherPlayer(player)))
-		return -100;
+	if(cannotPlay(board, otherPlayer(player))
+		return WINNING_SCORE;
+	if(hasNoPieces(board, player))
+		return LOSING_SCORE;
 
 	int score = 0;
 	for (int i = 0; i < BOARD_SIZE; ++i)
-	for (int j = 0; j < BOARD_SIZE; ++j)
-	{
-		score = player == WHITE_COLOR
-			? score + scoreChar(board[i][j])
-			: score - scoreChar(board[i][j]);
+	for (int j = 0; j < BOARD_SIZE; ++j) {
+		score += scoreChar(board[i][j]);
 	}
-	return score;
+	return player == WHITE_COLOR
+		? score
+		: -score;
+}
+
+bool cannotPlay(char** board, int player) {
+	if(hasNoPieces(board, player))
+		return true;
+	for (int i = 0; i < BOARD_SIZE; ++i)
+	for (int j = 0; j < BOARD_SIZE; ++j) {
+		if(!isPlayerPiece(board[i][j], player))
+			continue;
+		Position p = {.x = i, .y = j};
+		if ((isKing(board[i][j]) && (
+			canGoInDirection(board, p, &upperLeftDiagonal, player) ||
+			canGoInDirection(board, p, &upperRightDiagonal, player) ||
+			canGoInDirection(board, p, &lowerLeftDiagonal, player) ||
+			canGoInDirection(board, p, &lowerRightDiagonal, player))) ||
+			(player == WHITE_COLOR && (
+			canGoInDirection(board, p, &upperLeftDiagonal, player) ||
+			canGoInDirection(board, p, &upperRightDiagonal, player))) ||
+			(player == BLACK_COLOR && (
+			canGoInDirection(board, p, &lowerLeftDiagonal, player) ||
+			canGoInDirection(board, p, &lowerRightDiagonal, player))))
+			return false;
+	}
+}
+
+bool canGoInDirection(char** board, Position from, Position (*direction)(Position), int player) {
+	return (validPosition(direction(p)) && getValueInPosition(board, direction(p)) == EMPTY) ||
+			(validPosition(direction(p)) && validPosition(direction(direction(p))) &&
+				playerInPosition(board, direction(p), otherPlayer(player)) &&
+				getValueInPosition(board, direction(direction(p))) == EMPTY);
 }
 
 int scoreChar(char val) {

@@ -2,35 +2,40 @@
 
 MoveList* getManMoves(Position position, char** board, int player) {
 	MoveList* result = NULL;
-	Position leftPosition = upperLeftDiagonal(position);
-	if(validPosition(leftPosition)) {
-		if(getValueInPosition(leftPosition, board) == EMPTY) {
-			Move* move = createMove(position, createPositionList(leftPosition), NULL, 0);
+	Position leftPosition = player == WHITE_COLOR
+		? upperLeftDiagonal(position)
+		: lowerLeftDiagonal(position);
+	Position nextLeftPosition = player == WHITE_COLOR
+		? upperLeftDiagonal(leftPosition)
+		: lowerLeftDiagonal(leftPosition);
+	Position rightPosition = player == WHITE_COLOR
+		? upperRightDiagonal(position)
+		: lowerRightDiagonal(position);
+	Position nextRightPosition = player == WHITE_COLOR
+		? upperRightDiagonal(leftPosition)
+		: lowerRightDiagonal(leftPosition);
+	result = getMovesInDirection(result, position, leftPosition, nextLeftPosition);
+	result = getMovesInDirection(result, position, rightPosition, nextRightPosition);
+	return result;
+}
+
+MoveList* getMovesInDirection(MoveList* result, Position from, Position firstPosition, Position nextPosition) {
+	if(!validPosition(firstPosition))
+		return result;
+
+	if((result == NULL || result->maxToEat == 0) && getValueInPosition(firstPosition, board) == EMPTY) {
+		Move* move  = createMove(from, createPositionList(firstPosition), NULL, 0);
+		if(result == NULL)
 			result = createMoveList(move);
-		}
-		else if (playerInPosition(leftPosition, board, otherPlayer(player)) && getValueInPosition(upperLeftDiagonal(leftPosition), board) == EMPTY) {
-			char** boardCopy = setBoard(board, leftPosition, EMPTY);
-			Move* move  = createMove(position, createPositionList(upperLeftDiagonal(leftPosition)), createPositionList(leftPosition), 1);
-			result = aManEats(upperLeftDiagonal(leftPosition), boardCopy, move, player);
-			freeBoard(boardCopy);
-		}
+		else
+			result->next = createMoveList(move);
 	}
-	Position rightPosition = upperRightDiagonal(position);
-	if(validPosition(rightPosition)){
-		if((result==NULL||result->maxToEat==0) && getValueInPosition(rightPosition, board) == EMPTY) {
-			Move* move  = createMove(position, createPositionList(rightPosition), NULL, 0);
-			if(result == NULL)
-				result = createMoveList(move);
-			else
-				result->next = createMoveList(move);
-		}
-		else if (playerInPosition(rightPosition, board, otherPlayer(player)) && getValueInPosition(upperRightDiagonal(rightPosition), board) == EMPTY) {
-			char** boardCopy = setBoard(board, rightPosition, EMPTY);
-			Move* move  = createMove(position, createPositionList(upperRightDiagonal(rightPosition)), createPositionList(rightPosition), 1);
-			MoveList* rightMoves = aManEats(upperLeftDiagonal(leftPosition), boardCopy, move, player);
-			freeBoard(boardCopy);
-			result = bestMoveList(result, rightMoves);
-		}
+	else if (playerInPosition(firstPosition, board, otherPlayer(player)) && validPosition(nextPosition)
+		&& getValueInPosition(nextPosition, board) == EMPTY) {
+		
+		Move* move  = createMove(from, createPositionList(nextPosition), createPositionList(position), 1);
+		MoveList* moves = applyManEat(from, firstPosition, nextPosition, board, move, player);
+		result = bestMoveList(result, moves);
 	}
 	return result;
 }
@@ -43,71 +48,38 @@ MoveList* createMoveList(Move* move) {
 }
 
 MoveList* aManEats(Position from, char** board, Move* previousMove, int player) {
-	MoveList* upperLeftMoves = getUpperLeftEatList(from, board, previousMove, player);
-	MoveList* upperRightMoves = getUpperRightEatList(from, board, previousMove, player);
-	MoveList* lowerLeftMoves = getLowerLeftEatList(from, board, previousMove, player);
-	MoveList* lowerRightMoves = getLowerRightEatList(from, board, previousMove, player);
-	if(upperLeftMoves == NULL&&upperRightMoves==NULL&&lowerLeftMoves==NULL&&lowerRightMoves==NULL)
+	MoveList* upperLeftMoves = getManEatList(from, upperLeftDiagonal(from), upperLeftDiagonal(upperLeftDiagonal(from)),
+		board, previousMove, player);
+	MoveList* upperRightMoves = getManEatList(from, upperRightDiagonal(from), upperRightDiagonal(upperRightDiagonal(from)),
+		board, previousMove, player);
+	MoveList* lowerLeftMoves = getManEatList(from, lowerLeftDiagonal(from), lowerLeftDiagonal(lowerLeftDiagonal(from)),
+		board, previousMove, player);
+	MoveList* lowerRightMoves = getManEatList(from, lowerRightDiagonal(from), lowerRightDiagonal(lowerRightDiagonal(from)),
+		board, previousMove, player);
+	if(upperLeftMoves == NULL && upperRightMoves == NULL && lowerLeftMoves == NULL && lowerRightMoves == NULL)
 		return createMoveList(previousMove);
 	return bestMoveList(bestMoveList(bestMoveList(upperLeftMoves, upperRightMoves), lowerLeftMoves), lowerRightMoves);
 }
 
-MoveList* getUpperLeftEatList(Position from, char** board, Move* previousMove, int player){
-	Position leftPosition = upperLeftDiagonal(from);
-	if(validPosition(leftPosition) && validPosition(upperLeftDiagonal(leftPosition))
-		&& playerInPosition(leftPosition, board, otherPlayer(player))
-		&& getValueInPosition(upperLeftDiagonal(leftPosition), board) == EMPTY) {
+MoveList* getManEatList(Position from, Position positionToEat, Position to, char** board, Move* previousMove, int player) {
+	if(!validPosition(positionToEat) || !validPosition(to) ||
+		!playerInPosition(positionToEat, board, otherPlayer(player)) ||
+		!getValueInPosition(to, board) == EMPTY)
+		return NULL;
 
-		Move* newMove = addEatToMove(previousMove, upperLeftDiagonal(leftPosition), leftPosition);
-		char** boardCopy = setBoard(board, leftPosition, EMPTY);
-		MoveList* list = aManEats(from, boardCopy, newMove, player);
-		freeBoard(boardCopy);
-		return list;
-	}
-	return NULL;
+	Move* newMove = addEatToMove(previousMove, to, positionToEat);
+	return applyManEat(from, positionToEat, to, board, newMove, player);
 }
 
-MoveList* getUpperRightEatList(Position from, char** board, Move* previousMove, int player) {
-	Position rightPosition = upperRightDiagonal(from);
-	if(validPosition(rightPosition) && validPosition(upperRightDiagonal(rightPosition))
-		&& playerInPosition(rightPosition, board, otherPlayer(player))
-		&& getValueInPosition(upperRightDiagonal(rightPosition), board) == EMPTY) {
-		
-		Move* newMove = addEatToMove(previousMove, upperRightDiagonal(rightPosition), rightPosition);
-		char** boardCopy = setBoard(board, rightPosition, EMPTY);
-		MoveList* list = aManEats(from, boardCopy, newMove, player);
-		freeBoard(boardCopy);
-		return list;
-	}
-	return NULL;
-}
-
-MoveList* getLowerLeftEatList(Position from, char** board, Move* previousMove, int player) {
-	Position leftPosition = lowerLeftDiagonal(from);
-	if(validPosition(leftPosition) && validPosition(lowerLeftDiagonal(leftPosition))
-		&& playerInPosition(leftPosition, board, otherPlayer(player))
-		&& getValueInPosition(lowerLeftDiagonal(leftPosition), board) == EMPTY) {
-		
-		Move* newMove = addEatToMove(previousMove, lowerLeftDiagonal(leftPosition), leftPosition);
-		char** boardCopy = setBoard(board, leftPosition, EMPTY);
-		MoveList* list = aManEats(from, boardCopy, newMove, player);
-		freeBoard(boardCopy);
-		return list;
-	}
-	return NULL;
-}
-
-MoveList* getLowerRightEatList(Position from, char** board, Move* previousMove, int player) {
-	Position rightPosition = lowerRightDiagonal(from);
-	if(validPosition(rightPosition) && validPosition(lowerRightDiagonal(rightPosition))
-		&& playerInPosition(rightPosition, board, otherPlayer(player))
-		&& getValueInPosition(lowerRightDiagonal(rightPosition), board) == EMPTY) {
-		
-		Move* newMove = addEatToMove(previousMove, lowerRightDiagonal(rightPosition), rightPosition);
-		char** boardCopy = setBoard(board, rightPosition, EMPTY);
-		MoveList* list = aManEats(from, boardCopy, newMove, player);
-		freeBoard(boardCopy);
-		return list;
-	}
-	return NULL;
+MoveList* applyManEat(Position from, Position positionToEat, Position to, char** board, Move* move, int player) {
+	char piece = getValueInPosition(from, board);
+	piece = endOfBoard(to, player) ? crownPiece(piece) : piece;
+	char** boardCopy = setBoard(board, from, EMPTY);
+	boardCopy = setBoardAndFree(boardCopy, positionToEat, EMPTY);
+	boardCopy = setBoardAndFree(boardCopy, to, piece);
+	MoveList* list = endOfBoard(to, player)
+		? createMoveList(move)
+		: aManEats(to, boardCopy, move, player);
+	freeBoard(boardCopy);
+	return list;
 }
