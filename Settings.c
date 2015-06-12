@@ -43,7 +43,7 @@ Settings getSettings() {
 
 Settings setMinimaxDepth(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
-	int minimaxDepth = charToInt(*cmdValue);
+	int minimaxDepth = charToInt(*(cmdValue+1));
 	if (minimaxDepth <= 6 && minimaxDepth >= 1){
 		settings.minimaxDepth = minimaxDepth;
 	} else {
@@ -108,7 +108,7 @@ int getCmdType(char* cmdString) {
 }
 
 int charToInt(char cmd) {
-	return (int)cmd;
+	return cmd - '0';
 }
 
 //function signature and implementation is wrong
