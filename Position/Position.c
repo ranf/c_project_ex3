@@ -1,13 +1,16 @@
 #include "Position.h"
 
 Position parsePosition(char* positionString) {
-	//assuming valid string
+	Position p;
+	if(positionString[0] != '<' || positionString[2] != ','
+		|| positionString[4] != '>') {
+		return p;
+	}
 	char xLetter = positionString[1];
 	char yDigit = positionString[3];
-	//TODO fix for bigger numbers
 	int x = xLetter - 'a' + 1;
 	int y = yDigit - '0';
-	Position p = {.x = x, .y = y};
+	p = {.x = x, .y = y};
 	return p;
 }
 
@@ -66,6 +69,8 @@ void freePositionList(PositionList* list) {
 }
 
 bool allPositionsAreValid(PositionList* head) {
+	if(head == NULL)
+		return false;
 	while(head) {
 		if(!validPosition(head->data))
 			return false;

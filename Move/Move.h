@@ -33,6 +33,7 @@ MoveList* getMoves(char** board, int player);
 void freeMoves(MoveList* list);
 void freeMove(Move* move);
 Move* createMove(Position from, PositionList* to, PositionList* eatenAt, int eatCount);
+char** applyMove(char** board, Move* move);
 
 #include "ManMove.h"
 
