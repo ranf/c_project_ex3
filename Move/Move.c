@@ -111,7 +111,7 @@ MoveList* getKingMoves(Position position, char** board, int player) {
 MoveList* getMoves(char** board, int player) {
 	MoveList* result = NULL;
 	for (int i = 0; i < BOARD_SIZE; ++i)
-	for (int j = 0; j < BOARD_SIZE; ++i)
+	for (int j = 0; j < BOARD_SIZE; ++j)
 	{
 		Position position = {.x = i, .y = j};
 		if (playerInPosition(position, board, player)) {

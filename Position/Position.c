@@ -8,8 +8,8 @@ Position parsePosition(char* positionString) {
 	}
 	char xLetter = positionString[1];
 	char yDigit = positionString[3];
-	p.x = xLetter - 'a' + 1;
-	p.y = yDigit - '0';
+	p.x = xLetter - 'a';
+	p.y = yDigit - '1';
 	return p;
 }
 
@@ -31,9 +31,9 @@ PositionList* parseDestination(char* destString){
 
 void positionToString(Position position, char* str) {
 	str[0] = '<';
-	str[1] = position.x + 'a' - 1;
+	str[1] = position.x + 'a';
 	str[2] = ',';
-	str[3] = position.y;
+	str[3] = position.y + '1';
 	str[4] = '>';
 	str[5] = '\0';
 }
@@ -79,8 +79,8 @@ bool allPositionsAreValid(PositionList* head) {
 }
 
 bool validPosition(Position position) {
-	return position.x > 0 && position.x <= BOARD_SIZE &&
-		position.y > 0 && position.y <= BOARD_SIZE &&
+	return position.x > -1 && position.x < BOARD_SIZE &&
+		position.y > -1 && position.y < BOARD_SIZE &&
 		(position.x % 2) == (position.y % 2);
 }
 
