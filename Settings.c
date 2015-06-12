@@ -114,7 +114,7 @@ bool startsWith(const char *str, const char *pre) {
 }
 
 int charToInt(char cmd) {
-	return (int)*cmd;
+	return (int)cmd;
 }
 
 //function signature and implementation is wrong

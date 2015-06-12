@@ -21,7 +21,7 @@ void startGame(Settings settings) {
 }
 
 Settings computerTurn(Settings settings) {
-	Move* computerMove = findBestMove(board, minimaxDepth, computerColor);
+	Move* computerMove = findBestMove(settings.board, settings.minimaxDepth, otherPlayer(settings.userColor));
 	settings.board = applyMove(board, computerMove);
 	freeMove(computerMove);
 	return settings;
@@ -68,7 +68,7 @@ void printAllMoves(MoveList* moves) {
 }
 
 void printMove(Move* move) {
-	char result[MAX_COMMAND_LENGTH];
+	char result[MAX_MOVE_LENGTH];
 	result[0] = '\0';
 	char tempPositionString[6];
 	positionToString(move->from, tempPositionString);
@@ -78,13 +78,13 @@ void printMove(Move* move) {
 	while(dest){
 		positionToString(dest->data, tempPositionString);
 		strcat(result, tempPositionString);
-		dest= dest->next;
+		dest = dest->next;
 	}
 	printf("%s\n", result);
 }
 
 bool playerWon(char** board, int playerColor) {
-	MoveList* otherPlayerMoves = getMoves(board, otherPlayer(player));
+	MoveList* otherPlayerMoves = getMoves(board, otherPlayer(playerColor));
 	if (otherPlayerMoves) {
 		freeMoves(otherPlayerMoves);
 		return true;
