@@ -4,7 +4,7 @@ int main()
 {
 	Settings settings = getSettings();
 	if(settings.state == GAME_STATE) {
-		startGame(settings);
+		settings = startGame(settings);
 	}
 	freeBoard(settings.board);
 	return 0;

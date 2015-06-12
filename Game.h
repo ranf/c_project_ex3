@@ -15,7 +15,7 @@
 
 #define MAX_MOVE_LENGTH 150
 
-void startGame(Settings settings);
+Settings startGame(Settings settings);
 Settings computerTurn(Settings settings);
 Settings userTurn(Settings settings);
 Settings moveCommand(Settings settings, char* moveString);

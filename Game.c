@@ -1,6 +1,6 @@
 #include "Game.h"
 
-void startGame(Settings settings) {
+Settings startGame(Settings settings) {
 	while (settings.state == GAME_STATE) {
 		settings = settings.userColor == settings.playingColor
 			? userTurn(settings)
@@ -15,8 +15,8 @@ void startGame(Settings settings) {
 			printMessage(winningMessage);
 			settings.state = TERMINATE_STATE;
 		}
-		settings.playingColor = otherPlayer(settings.playingColor);
 	}
+	return settings;
 }
 
 Settings computerTurn(Settings settings) {
@@ -25,6 +25,7 @@ Settings computerTurn(Settings settings) {
 	printf("Computer: move ");
 	printMove(computerMove);
 	freeMove(computerMove);
+	settings.playingColor = settings.userColor;
 	return settings;
 }
 
@@ -51,6 +52,7 @@ Settings executeUserCommand(Settings settings, char* cmd) {
 	} else {
 		printMessage(ILLEGAL_COMMAND);
 	}
+	return settings;
 }
 
 Settings moveCommand(Settings settings, char* moveString) {
