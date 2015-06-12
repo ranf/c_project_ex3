@@ -55,10 +55,23 @@ bool isBlack(char value) {
 	return value == BLACK_M || value == BLACK_K;
 }
 
+bool isPlayerPiece(char value, int player) {
+	return player == WHITE_COLOR ? isWhite(value) : isBlack(value);
+}
+
 int otherPlayer(int player) {
 	return player == WHITE_COLOR
 			? BLACK_COLOR
 			: WHITE_COLOR;
+}
+
+bool hasNoPieces(char** board, int player) {
+	for (int i = 0; i < BOARD_SIZE; ++i)
+	for (int j = 0; j < BOARD_SIZE; ++j) {
+		if(isPlayerPiece(board[i][j], player))
+			return false;
+	}
+	return true;
 }
 
 void printBoard(char** board) {

@@ -9,7 +9,7 @@ Move* findBestMove(char** board, int minimaxDepth, int player) {
 		freeMoves(possibleMoves);
 		return result;
 	}
-	Move* bestMove = findMaxScore(possibleMoves, board, minimaxDepth - 1, player);
+	Move* bestMove = findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player);
 	freeMoves(possibleMoves);
 	return bestMove;
 }
@@ -57,10 +57,10 @@ ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player)
 }
 
 int scoreBoard(char** board, int player) {
-	if(playerWon(player))
-		return 100;
-	if(playerWon(otherPlayer(player)))
-		return -100;
+	if(cannotPlay(board, otherPlayer(player))
+		return WINNING_SCORE;
+	if(hasNoPieces(board, player))
+		return LOSING_SCORE;
 
 	int score = 0;
 	for (int i = 0; i < BOARD_SIZE; ++i)
@@ -70,6 +70,36 @@ int scoreBoard(char** board, int player) {
 	return player == WHITE_COLOR
 		? score
 		: -score;
+}
+
+bool cannotPlay(char** board, int player) {
+	if(hasNoPieces(board, player))
+		return true;
+	for (int i = 0; i < BOARD_SIZE; ++i)
+	for (int j = 0; j < BOARD_SIZE; ++j) {
+		if(!isPlayerPiece(board[i][j], player))
+			continue;
+		Position p = {.x = i, .y = j};
+		if ((isKing(board[i][j]) && (
+			canGoInDirection(board, p, &upperLeftDiagonal, player) ||
+			canGoInDirection(board, p, &upperRightDiagonal, player) ||
+			canGoInDirection(board, p, &lowerLeftDiagonal, player) ||
+			canGoInDirection(board, p, &lowerRightDiagonal, player))) ||
+			(player == WHITE_COLOR && (
+			canGoInDirection(board, p, &upperLeftDiagonal, player) ||
+			canGoInDirection(board, p, &upperRightDiagonal, player))) ||
+			(player == BLACK_COLOR && (
+			canGoInDirection(board, p, &lowerLeftDiagonal, player) ||
+			canGoInDirection(board, p, &lowerRightDiagonal, player))))
+			return false;
+	}
+}
+
+bool canGoInDirection(char** board, Position from, Position (*direction)(Position), int player) {
+	return (validPosition(direction(p)) && getValueInPosition(board, direction(p)) == EMPTY) ||
+			(validPosition(direction(p)) && validPosition(direction(direction(p))) &&
+				playerInPosition(board, direction(p), otherPlayer(player)) &&
+				getValueInPosition(board, direction(direction(p))) == EMPTY);
 }
 
 int scoreChar(char val) {
