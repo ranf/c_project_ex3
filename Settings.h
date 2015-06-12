@@ -22,6 +22,8 @@
 #define PRINT_CMD 11
 
 #define ENTER_SETTINGS_MESSAGE "Enter game settings:\n"
+#define WRONG_MINIMAX_DEPTH "Wrong value for minimax depth. The value should be between 1 to 6\n"
+#define WROND_BOARD_INITIALIZATION "Wrong board initialization\n"
 #define ILLEGAL_COMMAND "Illegal command, please try again\n"
 
 typedef struct {
@@ -39,6 +41,6 @@ void setDisc(char** board, char* cmd);
 
 int getCmdType(char* cmdString);
 bool startsWith(const char *str, const char *pre);
-int charToInt(char* cmd);
+int charToInt(char cmd);
 
 #endif

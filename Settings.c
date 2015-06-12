@@ -17,10 +17,10 @@ Settings getSettings() {
 				clearBoard(settings.board);
 				break;
 			case RM:
-				removeDisc(settings.board);
+				removeDisc(settings.board, cmd);
 				break;
 			case SET:
-				setDisc(settings.board);
+				setDisc(settings.board, cmd);
 				break;
 			case PRINT:
 				printBoard(settings.board);
@@ -29,6 +29,7 @@ Settings getSettings() {
 				settings.state = TERMINATE_STATE;
 				break;
 			case START:
+			//missing WRONG BOARD INITIALIZATION check
 				settings.state = GAME_STATE;
 				break;
 			default:
@@ -85,6 +86,8 @@ void setDisc(char** board, char* cmd) {
 }
 
 int getCmdType(char* cmdString) {
+	// for all commands command+anything will be consider valid (rmdsfnson for example)
+	// need to check there is space for commands with argumets and string equals for other commands
 	if(startsWith(cmdString, "minimax_depth"))
 		return MINIMAX_DEPTH;
 	if(startsWith(cmdString, "user_color"))
@@ -110,7 +113,7 @@ bool startsWith(const char *str, const char *pre) {
 	return lenstr < lenpre ? false : strncmp(pre, str, lenpre) == 0;
 }
 
-int charToInt(char* cmd) {
+int charToInt(char cmd) {
 	return (int)*cmd;
 }
 
