@@ -67,7 +67,7 @@ MoveList* aManEats(Position from, char** board, Move* previousMove, int player) 
 MoveList* getManEatList(Position from, Position positionToEat, Position to, char** board, Move* previousMove, int player) {
 	if(!validPosition(positionToEat) || !validPosition(to) ||
 		!playerInPosition(positionToEat, board, otherPlayer(player)) ||
-		!getValueInPosition(to, board) == EMPTY)
+		getValueInPosition(to, board) != EMPTY)
 		return NULL;
 
 	Move* newMove = addEatToMove(previousMove, to, positionToEat);

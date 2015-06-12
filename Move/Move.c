@@ -24,7 +24,7 @@ MoveList* bestMoveList(MoveList* list1, MoveList* list2) {
 
 Move* addEatToMove(Move* move, Position targetPosition, Position eatPosition) {
 	Move* newMove = copyMove(move);
-	PositionList* newPositionNode = createPositionList(eatPosition);
+	PositionList* newPositionNode = createPositionList(targetPosition);
 	PositionList* head = newMove->to;
 	if(head==NULL){
 		newMove->to = newPositionNode;
