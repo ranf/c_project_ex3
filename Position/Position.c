@@ -2,14 +2,14 @@
 
 Position parsePosition(char* positionString) {
 	Position p = {.x = -1, .y = -1};
-	if(positionString[0] != '<' || positionString[2] != ','
-		|| positionString[4] != '>') {
+	if(positionString == NULL || strlen(positionString) < 5 ||
+		positionString[0] != '<' || positionString[2] != ','||
+		(positionString[4] != '>'  && positionString[5] != '>'))) {
 		return p;
 	}
 	char xLetter = positionString[1];
-	char yDigit = positionString[3];
+	p.y = atoi(positionsString + 3) - 1;
 	p.x = xLetter - 'a';
-	p.y = yDigit - '1';
 	return p;
 }
 
@@ -18,7 +18,9 @@ PositionList* parseDestination(char* destString){
 	PositionList* list = createPositionList(p);
 	PositionList* head = list;
 	int i = 5;
-	while (destString[i] == '<') {
+	while (destString[i] == '<' || (destString[i] == '>' && destString[i+1] == '<')) {
+		if(destString[i] == '>')
+			i++;
 		Position p = parsePosition(destString+i);
 		head->next = createPositionList(p);
 		head = head->next;
@@ -31,9 +33,16 @@ void positionToString(Position position, char* str) {
 	str[0] = '<';
 	str[1] = position.x + 'a';
 	str[2] = ',';
-	str[3] = position.y + '1';
-	str[4] = '>';
-	str[5] = '\0';
+	if(position.y > 9) {
+		str[3] = ((position.y + 1) / 10)  + '0';
+		str[4] = ((position.y + 1) % 10)  + '0';
+		str[5] = '>';
+		str[6] = '\0';
+	} else {
+		str[3] = position.y + '1';
+		str[4] = '>';
+		str[5] = '\0';
+	}
 }
 
 PositionList* createPositionList(Position position) {

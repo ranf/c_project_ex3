@@ -18,7 +18,7 @@ ScoredMove findMaxScoreMove(MoveList* possibleMoves, char** board, int additiona
 	if(additionalChecks == 0) {
 		return maxScoreMoveInList(possibleMoves, board, player);
 	}
-	ScoredMove result = {.score = -101. move = NULL};
+	ScoredMove result = {.score = -101, .move = NULL};
 	MoveList* head = possibleMoves;
 	while (head) {
 		char** tempBoard = copyBoard(board);

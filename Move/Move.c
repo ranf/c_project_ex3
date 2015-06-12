@@ -56,11 +56,18 @@ Move* copyMove(Move* move) {
 }
 
 Move* parseMove(char* moveString) {
-	char initialPosition[6];
-	strncpy(initialPosition, moveString, 5);
-	initialPosition[5] = '\0';
+	char initialPosition[7];
+	bool isDoubleDigits = moveString[4] == '>';
+	if (isDoubleDigits) {
+		strncpy(initialPosition, moveString, 6);
+		initialPosition[6] = '\0';
+	} else {
+		strncpy(initialPosition, moveString, 5);
+		initialPosition[5] = '\0';
+	}	
 	Position from = parsePosition(initialPosition);
-	PositionList* to = parseDestination(moveString + 9);//<x,y>_to_
+	int lengthToSkip = isDoubleDigits ? 10 : 9;//<x,y>_to_
+	PositionList* to = parseDestination(moveString + lengthToSkip);
 	return createMove(from, to, NULL, 0);
 }
 
