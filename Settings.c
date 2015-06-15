@@ -29,8 +29,7 @@ Settings getSettings() {
 				settings.state = TERMINATE_STATE;
 				break;
 			case START:
-			//missing WRONG BOARD INITIALIZATION check
-				settings.state = GAME_STATE;
+				startBoard(settings);
 				break;
 			default:
 				printMessage(ILLEGAL_COMMAND);
@@ -51,6 +50,9 @@ Settings setMinimaxDepth(Settings settings, char* cmd) {
 	}
 	return settings;
 }
+int charToInt(char cmd) {
+	return cmd - '0';
+}
 
 Settings setUserColor(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
@@ -66,23 +68,26 @@ void removeDisc(char** board, char* cmd) {
 	else
 		printf("Invalid on the board\n");
 }
-
+void startBoard (Settings settings){
+	if (emptyBoard(settings.board))||(OneColorDisc(settings.board))||(moreThen20Disc(settings.board)))
+		printMessage(WROND_BOARD_INITIALIZATION);
+	else
+		settings.state = GAME_STATE;
+}
 void setDisc(char** board, char* cmd) {
-	//splitted is array of strings but used sometimes as chars
-
-	// char* cmdValue = strchr(cmd, ' ');
-	// char*[]  splitted = split(cmdValue, " ");
-	// Position p = parsePosition(splitted[0]);
-	// if (validPosition(p)) {
-	// 	char v = EMPTY;
-	// 	if(isWhite(splitted[1]))
-	// 		v = isKing(splitted[2]) ? WHITE_K : WHITE_M;
-	// 	else
-	// 		v = isKing(splitted[2]) ? BLACK_K : BLACK_M;
-	// 	board[p.x][p.y] = v;
-	// } else {
-	// 	printf("Invalid on the board\n");
-	// }
+	char* cmdValue = strchr(cmd, ' ');
+	char[]  splitted = split(cmdValue, " ");
+	Position p = parsePosition(splitted[0]);
+	if (validPosition(p)) {
+		char v = EMPTY;
+	 	if(isWhite(splitted[1]))
+	 		v = isKing(splitted[2]) ? WHITE_K : WHITE_M;
+	 	else
+	 		v = isKing(splitted[2]) ? BLACK_K : BLACK_M;
+	 	board[p.x][p.y] = v;
+	 } else {
+	 	printf("Invalid on the board\n");
+	 }
 }
 
 int getCmdType(char* cmdString) {
@@ -107,24 +112,18 @@ int getCmdType(char* cmdString) {
 	return PRINT_CMD;
 }
 
-int charToInt(char cmd) {
-	return cmd - '0';
-}
 
-//function signature and implementation is wrong
-//	cannot return array that was allocated on the stack inside the function
-//	either receive "char* target[3]" as argument or allocate on the heap and return pointer
-//
-// char[] split(char* str, char delim) {
-// 	char*[3] splitted;
-// 	char *token;
-// 	token = strtok(str, delim);
-// 	int i=0;
-// 	while(token != NULL) {
-// 		splitted[i] = token;
-// 		i++;   
-// 		token = strtok(NULL, s);
-// 	}
 
-// 	return splitted;
-// }
+ char[] split(char* str, char delim) {
+ 	char[3] splitted;
+ 	char token;
+ 	token = strtok(str, delim);
+ 	int i=0;
+ 	while(token != NULL) {
+ 		splitted[i] = token;
+ 		i++;   
+ 		token = strtok(NULL, s);
+ 	}
+
+ 	return splitted;
+ }
