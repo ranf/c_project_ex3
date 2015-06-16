@@ -147,3 +147,22 @@ bool endOfBoard(Position p, int player) {
 	return (p.y == BOARD_SIZE-1 && player == WHITE_COLOR) ||
 		(p.y = 0 && player == BLACK_COLOR);
 }
+bool emptyBoard(char** board){
+	int i ,j ;
+	for (i = 0; i < BOARD_SIZE; i++){
+		for (j = 0; j < BOARD_SIZE; j++){
+				if (board[i][j] != EMPTY)
+					return false;
+			}
+		}
+		return true;
+	}
+
+
+}
+bool OneColorDisc(char** board){
+
+}
+bool moreThen20Disc(char** board){
+	
+}

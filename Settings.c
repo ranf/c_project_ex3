@@ -53,13 +53,11 @@ Settings setMinimaxDepth(Settings settings, char* cmd) {
 int charToInt(char cmd) {
 	return cmd - '0';
 }
-
 Settings setUserColor(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
 	return settings;
 }
-
 void removeDisc(char** board, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	Position p = parsePosition(cmdValue);
@@ -89,7 +87,6 @@ void setDisc(char** board, char* cmd) {
 	 	printf("Invalid on the board\n");
 	 }
 }
-
 int getCmdType(char* cmdString) {
 	// for all commands command+anything will be consider valid (rmdsfnson for example)
 	// need to check there is space for commands with argumets and string equals for other commands
@@ -111,19 +108,15 @@ int getCmdType(char* cmdString) {
 		return START;
 	return PRINT_CMD;
 }
-
-
-
- char[] split(char* str, char delim) {
+char[] split(char* str, char delim) {
  	char[3] splitted;
- 	char token;
+ 	char* token;
  	token = strtok(str, delim);
  	int i=0;
  	while(token != NULL) {
- 		splitted[i] = token;
+ 		splitted[i] = *token;
  		i++;   
  		token = strtok(NULL, s);
  	}
-
- 	return splitted;
- }
+ 	return split;
+}
