@@ -153,7 +153,7 @@ void clearBoard(char** board) {
 
 bool endOfBoard(Position p, int player) {
 	return (p.y == BOARD_SIZE-1 && player == WHITE_COLOR) ||
-		(p.y = 0 && player == BLACK_COLOR);
+		(p.y == 0 && player == BLACK_COLOR);
 }
 
 bool emptyBoard(char** board) {

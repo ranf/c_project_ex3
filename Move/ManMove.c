@@ -27,10 +27,7 @@ MoveList* getMovesInDirection(MoveList* result, char** board, int player,
 
 	if((result == NULL || result->maxToEat == 0) && getValueInPosition(firstPosition, board) == EMPTY) {
 		Move* move  = createMove(from, createPositionList(firstPosition), NULL, 0);
-		if(result == NULL)
-			result = createMoveList(move);
-		else
-			result->next = createMoveList(move);
+		result = bestMoveList(result, createMoveList(move));		
 	}
 	else if (playerInPosition(firstPosition, board, otherPlayer(player)) && validPosition(nextPosition)
 		&& getValueInPosition(nextPosition, board) == EMPTY) {

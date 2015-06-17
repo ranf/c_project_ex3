@@ -17,10 +17,7 @@ MoveList* getKingMovesInDirection(MoveList* result, char** board, int player,
 	while(validPosition(dest) && getValueInPosition(dest, board) == EMPTY) {
 		if (result == NULL || result->maxToEat == 0) { //find zero eats moves
 			Move* move  = createMove(from, createPositionList(dest), NULL, 0);
-			if(result == NULL)
-				result = createMoveList(move);
-			else
-				result->next = createMoveList(move);
+			result = bestMoveList(result, createMoveList(move));
 		}
 		dest = direction(dest);
 	}
