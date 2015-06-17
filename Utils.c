@@ -15,11 +15,13 @@ char* readString()
 	char *str;
 	int ch;
 	size_t len = 0;
-    str = malloc(sizeof(char)*size);//size is start size
+    str = realloc(NULL, sizeof(char)*size);//size is start size
+    if(!str)return str;
     while(EOF!=(ch=fgetc(stdin)) && ch != '\n'){
     	str[len++]=ch;
     	if(len==size){
     		str = realloc(str, sizeof(char)*(size+=16));
+    		if(!str)return str;
     	}
     }
     str[len++]='\0';

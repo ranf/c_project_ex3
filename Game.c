@@ -8,8 +8,8 @@ Settings startGame(Settings settings) {
 		if(settings.state == TERMINATE_STATE)
 				return settings;
 		printBoard(settings.board);
-		if(playerWon(settings.board, settings.playingColor)) {
-			char* winningMessage = settings.playingColor == WHITE_COLOR
+		if(playerWon(settings.board, otherPlayer(settings.playingColor))) {
+			char* winningMessage = otherPlayer(settings.playingColor) == WHITE_COLOR
 				? WHITE_PLAYER_WINS
 				: BLACK_PLAYER_WINS;
 			printMessage(winningMessage);
