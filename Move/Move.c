@@ -56,7 +56,7 @@ Move* copyMove(Move* move) {
 }
 
 MoveList* createMoveList(Move* move) {
-	MoveList* result = malloc(sizeof(MoveList));
+	MoveList* result = safeMalloc(sizeof(MoveList));
 	result->data = move;
 	result->next = NULL;
 	result->maxToEat = move->eatCount;
@@ -136,7 +136,7 @@ MoveList* getMoves(char** board, int player) {
 }
 
 Move* createMove(Position from, PositionList* to, PositionList* eatenAt, int eatCount) {
-	Move* move = malloc(sizeof(Move));
+	Move* move = safeMalloc(sizeof(Move));
 	move->from = from;
 	move->to = to;
 	move->eatenAt = eatenAt;

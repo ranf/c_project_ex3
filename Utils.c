@@ -1,31 +1,39 @@
 #include "Utils.h"
 
-void* mallocAndVerify(size_t size) {
+void* safeMalloc(size_t size) {
 	void* ptr = malloc(size);
 	if(ptr == NULL) {
-		printf("Error allocating memory. Terminating program..\n");
+		printErrorMessage("malloc");
 		exit(EXIT_FAILURE);
 	}
 	return ptr;
 }
 
-char* readString()
-{
+void* safeRealloc(void* ptr, size_t size) {
+	void* newPtr = realloc(ptr, size);
+	if(newPtr == NULL) {
+		printErrorMessage("realloc");
+		exit(EXIT_FAILURE);
+	}
+	return newPtr;
+}
+
+char* readString() {
 	size_t size = 10;
 	char *str;
 	int ch;
 	size_t len = 0;
-    str = realloc(NULL, sizeof(char)*size);//size is start size
+    str = safeRealloc(NULL, sizeof(char)*size);//size is start size
     if(!str)return str;
     while(EOF!=(ch=fgetc(stdin)) && ch != '\n'){
     	str[len++]=ch;
     	if(len==size){
-    		str = realloc(str, sizeof(char)*(size+=16));
+    		str = safeRealloc(str, sizeof(char)*(size+=16));
     		if(!str)return str;
     	}
     }
     str[len++]='\0';
-    return realloc(str, sizeof(char)*len);
+    return safeRealloc(str, sizeof(char)*len);
 }
 
 bool startsWith(const char *str, const char *pre) {

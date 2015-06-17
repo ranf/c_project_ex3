@@ -22,9 +22,9 @@ char** copyBoard(char** board) {
 }
 
 char** mallocBoard() {
-	char** board = malloc(BOARD_SIZE*sizeof(char*));
+	char** board = safeMalloc(BOARD_SIZE*sizeof(char*));
 	for (int i = 0; i < BOARD_SIZE; ++i) {
-		board[i] = malloc(BOARD_SIZE*sizeof(char));
+		board[i] = safeMalloc(BOARD_SIZE*sizeof(char));
 	}
 	return board;
 }

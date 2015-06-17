@@ -9,7 +9,8 @@
 #define printErrorMessage(func_name) (fprintf(stderr, "Error: standard function %s has failed\n", func_name))
 #define printMessage(message) (printf("%s", message))
 
-void* mallocAndVerify(size_t size);
+void* safeMalloc(size_t size);
+void* safeRealloc(void* ptr, size_t size);
 char* readString();
 bool startsWith(const char *str, const char *pre);
 
