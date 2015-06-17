@@ -9,7 +9,7 @@ Move* findBestMove(char** board, int minimaxDepth, int player) {
 		freeMoves(possibleMoves);
 		return result;
 	}
-	Move* bestMove = copyMove(findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player).move);
+	Move* bestMove = findMaxScoreMove(possibleMoves, board, minimaxDepth - 1, player).move;
 	freeMoves(possibleMoves);
 	return bestMove;
 }
@@ -47,7 +47,7 @@ ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player)
 	while (head) {
 		tempBoard = copyBoard(board);
 		tempBoard = applyMove(tempBoard, head->data);
-		int tempScore = scoreBoard(board, player);
+		int tempScore = scoreBoard(tempBoard, player);
 		if(tempScore > maxScore) {
 			maxScore = tempScore;
 			maxMove = head->data;
@@ -55,7 +55,7 @@ ScoredMove maxScoreMoveInList(MoveList* possibleMoves, char** board, int player)
 		freeBoard(tempBoard);
 		head = head->next;
 	}
-	ScoredMove result = {.move = maxMove, .score = maxScore};
+	ScoredMove result = {.move = copyMove(maxMove), .score = maxScore};
 	return result;
 }
 
