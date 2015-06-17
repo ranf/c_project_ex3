@@ -37,5 +37,7 @@ bool endOfBoard(Position p, int player);
 bool emptyBoard(char** board);
 bool oneColorBoard(char** board);
 bool moreThen20Discs(char** board);
+char crownPiece(char value);
+int piecePlayer(char value);
 	
 #endif

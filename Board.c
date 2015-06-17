@@ -71,6 +71,14 @@ int otherPlayer(int player) {
 			: WHITE_COLOR;
 }
 
+char crownPiece(char value) {
+	return isWhite(value) ? WHITE_K : BLACK_K;
+}
+
+int piecePlayer(char value) {
+	return value == WHITE_K || value == WHITE_M ? WHITE_COLOR : BLACK_COLOR;
+}
+
 bool hasNoPieces(char** board, int player) {
 	for (int i = 0; i < BOARD_SIZE; ++i)
 	for (int j = 0; j < BOARD_SIZE; ++j) {

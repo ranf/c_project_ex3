@@ -29,7 +29,7 @@ MoveList* applyEat(Position from, Position positionToEat, Position to, char** bo
 	char piece = getValueInPosition(from, board);
 	bool isKingMove = isKing(piece);
 	if (endOfBoard(to, player)) {
-		piece = player == WHITE_COLOR ? WHITE_K : BLACK_K;
+		piece = crownPiece(piece);
 	}
 	char** boardCopy = setBoard(board, from, EMPTY);
 	boardCopy = setBoardAndFree(boardCopy, positionToEat, EMPTY);

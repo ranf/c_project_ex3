@@ -172,5 +172,8 @@ char** applyMove(char** board, Move* move) {
 	while(head->next){
 		head = head->next;
 	}
+	if(!isKing(movingDisc) && endOfBoard(head->data, piecePlayer(movingDisc))) {
+		movingDisc = crownPiece(movingDisc);
+	}
 	return setBoardAndFree(board, head->data, movingDisc);
 }

@@ -12,7 +12,7 @@ MoveList* getKingMoves(Position position, char** board, int player) {
 
 MoveList* getKingMovesInDirection(MoveList* result, char** board, int player,
 	Position from, Position (*direction)(Position)) {
-	MoveList* result = NULL;
+
 	Position dest = direction(from);
 	while(validPosition(dest) && getValueInPosition(dest, board) == EMPTY) {
 		if (result == NULL || result->maxToEat == 0) { //find zero eats moves
@@ -25,7 +25,7 @@ MoveList* getKingMovesInDirection(MoveList* result, char** board, int player,
 		dest = direction(dest);
 	}
 	if(validPosition(dest) && playerInPosition(dest, board, otherPlayer(player)) &&
-		validPosition(direction(dest)) && getValueInPosition(direction(dest)) == EMPTY) {
+		validPosition(direction(dest)) && getValueInPosition(direction(dest), board) == EMPTY) {
 		//after skipping empties reached enemy piece that it can eat
 		Move* move  = createMove(from, createPositionList(direction(dest)), createPositionList(dest), 1);
 		MoveList* moves = applyEat(from, dest, direction(dest), board, move, player);
