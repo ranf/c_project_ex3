@@ -39,7 +39,7 @@ Settings setMinimaxDepth(Settings settings, char* cmd);
 Settings setUserColor (Settings settings, char* cmd);
 void removeDisc(char** board, char* cmd);
 void setDisc(char** board, char* cmd);
-void startBoard (Settings settings);
+Settings startBoard (Settings settings);
 int getCmdType(char* cmdString);
 int charToInt(char cmd);
 

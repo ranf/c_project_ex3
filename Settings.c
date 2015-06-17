@@ -29,7 +29,7 @@ Settings getSettings() {
 				settings.state = TERMINATE_STATE;
 				break;
 			case START:
-				startBoard(settings);
+				settings = startBoard(settings);
 				break;
 			default:
 				printMessage(ILLEGAL_COMMAND);
@@ -52,7 +52,7 @@ Settings setMinimaxDepth(Settings settings, char* cmd) {
 }
 
 Settings setUserColor(Settings settings, char* cmd) {
-	char* cmdValue = strchr(cmd, ' ');
+	char* cmdValue = strchr(cmd, ' ') + 1;
 	settings.userColor = strcmp(cmdValue, "white") == 0 ? WHITE_COLOR : BLACK_COLOR;
 	return settings;
 }
@@ -66,12 +66,13 @@ void removeDisc(char** board, char* cmd) {
 		printf("Invalid on the board\n");
 }
 
-void startBoard (Settings settings) {
+Settings startBoard (Settings settings) {
 	if (emptyBoard(settings.board) || oneColorBoard(settings.board) ||
 		moreThen20Discs(settings.board))
 		printMessage(WROND_BOARD_INITIALIZATION);
 	else
 		settings.state = GAME_STATE;
+	return settings;
 }
 
 void setDisc(char** board, char* cmd) {
