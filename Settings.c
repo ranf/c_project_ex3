@@ -42,7 +42,7 @@ Settings getSettings() {
 
 Settings setMinimaxDepth(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
-	int minimaxDepth = charToInt(*(cmdValue+1));
+	int minimaxDepth = atoi(cmdValue + 1);
 	if (minimaxDepth <= 6 && minimaxDepth >= 1){
 		settings.minimaxDepth = minimaxDepth;
 	} else {
@@ -50,73 +50,65 @@ Settings setMinimaxDepth(Settings settings, char* cmd) {
 	}
 	return settings;
 }
-int charToInt(char cmd) {
-	return cmd - '0';
-}
+
 Settings setUserColor(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
 	settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
 	return settings;
 }
+
 void removeDisc(char** board, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
-	Position p = parsePosition(cmdValue);
+	Position p = parsePosition(cmdValue + 1);
 	if (validPosition(p))
 		board[p.x][p.y] = EMPTY;
 	else
 		printf("Invalid on the board\n");
 }
-void startBoard (Settings settings){
-	if (emptyBoard(settings.board))||(OneColorDisc(settings.board))||(moreThen20Disc(settings.board)))
+
+void startBoard (Settings settings) {
+	if (emptyBoard(settings.board) || oneColorBoard(settings.board) ||
+		moreThen20Discs(settings.board))
 		printMessage(WROND_BOARD_INITIALIZATION);
 	else
 		settings.state = GAME_STATE;
 }
+
 void setDisc(char** board, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
-	char[]  splitted = split(cmdValue, " ");
-	Position p = parsePosition(splitted[0]);
+	Position p = parsePosition(cmdValue + 1);
 	if (validPosition(p)) {
 		char v = EMPTY;
-	 	if(isWhite(splitted[1]))
-	 		v = isKing(splitted[2]) ? WHITE_K : WHITE_M;
+		cmdValue  = strchr(cmdValue,' ') + 1;
+		char pieceType = strchr(cmdValue, ' ') + 1;
+	 	if(startsWith(cmdValue, "white "))
+	 		v = isKing(pieceType) ? WHITE_K : WHITE_M;
 	 	else
-	 		v = isKing(splitted[2]) ? BLACK_K : BLACK_M;
+	 		v = isKing(pieceType) ? BLACK_K : BLACK_M;
 	 	board[p.x][p.y] = v;
 	 } else {
 	 	printf("Invalid on the board\n");
 	 }
 }
+
 int getCmdType(char* cmdString) {
 	// for all commands command+anything will be consider valid (rmdsfnson for example)
 	// need to check there is space for commands with argumets and string equals for other commands
-	if(startsWith(cmdString, "minimax_depth"))
+	if(startsWith(cmdString, "minimax_depth "))
 		return MINIMAX_DEPTH;
-	if(startsWith(cmdString, "user_color"))
+	if(startsWith(cmdString, "user_color "))
 		return USER_COLOR;
-	if(startsWith(cmdString, "clear"))
+	if(strcmp(cmdString, "clear") == 0)
 		return CLEAR;
-	if(startsWith(cmdString, "rm"))
+	if(startsWith(cmdString, "rm "))
 		return RM;
-	if(startsWith(cmdString, "set"))
+	if(startsWith(cmdString, "set "))
 		return SET;
-	if(startsWith(cmdString, "print"))
+	if(strcmp(cmdString, "print") == 0)
 		return PRINT;
-	if(startsWith(cmdString, "quit"))
+	if(strcmp(cmdString, "quit") == 0)
 		return QUIT;
-	if(startsWith(cmdString, "start"))
+	if(strcmp(cmdString, "start") == 0)
 		return START;
-	return PRINT_CMD;
-}
-char[] split(char* str, char delim) {
- 	char[3] splitted;
- 	char* token;
- 	token = strtok(str, delim);
- 	int i=0;
- 	while(token != NULL) {
- 		splitted[i] = *token;
- 		i++;   
- 		token = strtok(NULL, s);
- 	}
- 	return split;
+	return UNKNOWN_CMD;
 }

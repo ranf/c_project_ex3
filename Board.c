@@ -160,9 +160,28 @@ bool emptyBoard(char** board){
 
 
 }
-bool OneColorDisc(char** board){
-
+bool oneColorBoard(char** board){
+	bool hasWhite = false;
+	bool hasBlack = false;
+	for (int i = 0; i < BOARD_SIZE; i++)
+	for (int j = 0; j < BOARD_SIZE; j++) {
+		if(isWhite(board[i][j]))
+			hasWhite = true;
+		else if(isBlack(board[i][j]))
+			hasBlack = true;
+	}
+	return !hasBlack && !hasWhite;
 }
-bool moreThen20Disc(char** board){
-	
+
+bool moreThen20Discs(char** board) {
+	int whiteCount = 0;
+	int blackCount = 0;
+	for (int i = 0; i < BOARD_SIZE; i++)
+	for (int j = 0; j < BOARD_SIZE; j++) {
+		if(isWhite(board[i][j]))
+			whiteCount++;
+		else if(isBlack(board[i][j]))
+			blackCount++;
+	}
+	return whiteCount > 20 || blackCount > 20;
 }

@@ -19,7 +19,7 @@
 #define PRINT 8
 #define QUIT 9
 #define START 10
-#define PRINT_CMD 11
+#define UNKNOWN_CMD 11
 
 #define ENTER_SETTINGS_MESSAGE "Enter game settings:\n"
 #define WRONG_MINIMAX_DEPTH "Wrong value for minimax depth. The value should be between 1 to 6\n"
@@ -39,7 +39,7 @@ Settings setMinimaxDepth(Settings settings, char* cmd);
 Settings setUserColor (Settings settings, char* cmd);
 void removeDisc(char** board, char* cmd);
 void setDisc(char** board, char* cmd);
-
+void startBoard (Settings settings);
 int getCmdType(char* cmdString);
 int charToInt(char cmd);
 
