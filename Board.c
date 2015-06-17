@@ -176,7 +176,7 @@ bool oneColorBoard(char** board){
 		else if(isBlack(board[i][j]))
 			hasBlack = true;
 	}
-	return !hasBlack && !hasWhite;
+	return !hasBlack || !hasWhite;
 }
 
 bool moreThen20Discs(char** board) {
