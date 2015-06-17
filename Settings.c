@@ -53,7 +53,7 @@ Settings setMinimaxDepth(Settings settings, char* cmd) {
 
 Settings setUserColor(Settings settings, char* cmd) {
 	char* cmdValue = strchr(cmd, ' ');
-	settings.userColor = strcmp(cmdValue, "white") ? WHITE_COLOR : BLACK_COLOR;
+	settings.userColor = strcmp(cmdValue, "white") == 0 ? WHITE_COLOR : BLACK_COLOR;
 	return settings;
 }
 
@@ -75,12 +75,12 @@ void startBoard (Settings settings) {
 }
 
 void setDisc(char** board, char* cmd) {
-	char* cmdValue = strchr(cmd, ' ');
-	Position p = parsePosition(cmdValue + 1);
+	char* cmdValue = strchr(cmd, ' ') + 1;
+	Position p = parsePosition(cmdValue);
 	if (validPosition(p)) {
 		char v = EMPTY;
-		cmdValue  = strchr(cmdValue,' ') + 1;
-		char pieceType = strchr(cmdValue, ' ') + 1;
+		cmdValue  = strchr(cmdValue, ' ') + 1;
+		char pieceType = *(strchr(cmdValue, ' ') + 1);
 	 	if(startsWith(cmdValue, "white "))
 	 		v = isKing(pieceType) ? WHITE_K : WHITE_M;
 	 	else
