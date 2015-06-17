@@ -2,14 +2,11 @@
 #define MANMOVE_
 
 #include "Move.h"
+#include "EatMove.h"
 #include "../Board.h"
 #include "../Position/Position.h"
 
 MoveList* getManMoves(Position position, char** board, int player);
 MoveList* getMovesInDirection(MoveList* result, char** board, int player, Position from, Position firstPosition, Position nextPosition);
-MoveList* createMoveList(Move* move);
-MoveList* aManEats(Position from, char** board, Move* previousMove, int player);
-MoveList* getManEatList(Position from, Position positionToEat, Position to, char** board, Move* previousMove, int player);
-MoveList* applyManEat(Position from, Position positionToEat, Position to, char** board, Move* move, int player);
 
 #endif

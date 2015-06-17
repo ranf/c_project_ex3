@@ -35,7 +35,9 @@ void freeMove(Move* move);
 Move* createMove(Position from, PositionList* to, PositionList* eatenAt, int eatCount);
 char** applyMove(char** board, Move* move);
 Move* copyMove(Move* move);
+MoveList* createMoveList(Move* move);
 
 #include "ManMove.h"
+#include "KingMove.h"
 
 #endif

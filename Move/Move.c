@@ -55,6 +55,14 @@ Move* copyMove(Move* move) {
 		copyPositionList(move->eatenAt), move->eatCount);
 }
 
+MoveList* createMoveList(Move* move) {
+	MoveList* result = malloc(sizeof(MoveList));
+	result->data = move;
+	result->next = NULL;
+	result->maxToEat = move->eatCount;
+	return result;
+}
+
 Move* parseMove(char* moveString) {
 	char initialPosition[7];
 	bool isDoubleDigits = moveString[4] != '>';
@@ -109,10 +117,6 @@ bool moveInList(MoveList* list, Move* moveToFind) {
 		head = head->next;
 	}
 	return false;
-}
-
-MoveList* getKingMoves(Position position, char** board, int player) {
-	return NULL;//TODO
 }
 
 MoveList* getMoves(char** board, int player) {
