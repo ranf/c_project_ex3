@@ -2,6 +2,7 @@
 #define BOARD_
 
 #include "Position/Position.h"
+#include "Utils.h"
 #include <stdbool.h>
 #include <stdio.h>
 
