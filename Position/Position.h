@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define INVALID_POSITION "Invalid position on the board\n"
+
 typedef struct {
 	int x;
 	int y;

@@ -7,7 +7,6 @@
 #include "../Utils.h"
 
 #define ILLEGAL_MOVE "Illegal move\n"
-#define INVALID_POSITION "Invalid position on the board\n"
 #define NO_DISC "The specified position does not contain your piece\n"
 
 typedef struct {
