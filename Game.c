@@ -30,8 +30,8 @@ Settings computerTurn(Settings settings) {
 }
 
 Settings userTurn(Settings settings) {
-	printMessage(ENTER_YOUR_MOVE);
 	while (settings.state == GAME_STATE && settings.playingColor == settings.userColor) {
+		printMessage(ENTER_YOUR_MOVE);
 		char* cmd = readString();
 		settings = executeUserCommand(settings, cmd);
 		free(cmd);

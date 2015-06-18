@@ -63,7 +63,7 @@ void removeDisc(char** board, char* cmd) {
 	if (validPosition(p))
 		board[p.x][p.y] = EMPTY;
 	else
-		printf("Invalid on the board\n");
+		printMessage(INVALID_POSITION);
 }
 
 Settings startBoard (Settings settings) {
@@ -88,7 +88,7 @@ void setDisc(char** board, char* cmd) {
 	 		v = isKing(pieceType) ? BLACK_K : BLACK_M;
 	 	board[p.x][p.y] = v;
 	 } else {
-	 	printf("Invalid on the board\n");
+	 	printMessage(INVALID_POSITION);
 	 }
 }
 

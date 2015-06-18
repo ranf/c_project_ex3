@@ -10,8 +10,8 @@
 #include <stdbool.h>
 
 #define ENTER_YOUR_MOVE "Enter your move:\n" 
-#define WHITE_PLAYER_WINS "white player wins!\n"
-#define BLACK_PLAYER_WINS "black player wins!\n"
+#define WHITE_PLAYER_WINS "White player wins!\n"
+#define BLACK_PLAYER_WINS "Black player wins!\n"
 
 #define MAX_MOVE_LENGTH 150
 
